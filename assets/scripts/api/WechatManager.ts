@@ -9,6 +9,10 @@ export class WechatManager implements IPlatform {
   private _rewardedCallback: Function = null
 
   init() {
+    wx.showShareMenu({
+      menus: ['shareAppMessage', 'shareTimeline']
+    })
+    console.log('开放分享')
     this.createBannerAd()
     this.createRewardedVideoAd()
     this.createInterstitialAd()
@@ -28,9 +32,6 @@ export class WechatManager implements IPlatform {
 
   hideBannerAd() { }
 
-  /**
-   * 激励广告初始化
-   */
   createRewardedVideoAd() {
     this._rewardedVideoAd = wx.createRewardedVideoAd({
       adUnitId: wechatConfig.rewardedVideoID
@@ -50,10 +51,6 @@ export class WechatManager implements IPlatform {
     })
   }
 
-  /**
-   * 播放激励广告
-   * @param callback 
-   */
   showRewardedVideoAd(callback) {
     this._rewardedCallback = callback
     this._rewardedVideoAd.show(() => {
