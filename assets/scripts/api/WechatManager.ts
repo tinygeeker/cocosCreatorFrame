@@ -33,12 +33,8 @@ export class WechatManager implements IPlatform {
    */
   createRewardedVideoAd() {
     this._rewardedVideoAd = wx.createRewardedVideoAd({
-      adUnitId: 'adunit-4271698a7adef832'
+      adUnitId: wechatConfig.rewardedVideoID
     })
-
-    console.log(window.CC_DEBUG)
-    console.log(wechatConfig.rewardedVideoID)
-    console.log(this._rewardedVideoAd)
 
     this._rewardedVideoAd.onLoad(() => {
       console.log('加载激励广告！')
