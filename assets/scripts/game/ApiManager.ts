@@ -14,7 +14,7 @@ export class ApiManager extends Component {
         window.platform = new DebugManager();
     }
 
-    console.log('平台：', sys.platform)
+    console.log('初始化平台：', sys.platform)
     window.platform.init()
   }
 
@@ -40,8 +40,13 @@ export class ApiManager extends Component {
   }
 
   startPlayInterAd() {
-    console.log('播放激励广告~')
-    window.platform.showRewardedVideoAd()
+    window.platform.showRewardedVideoAd((res) => {
+      if (res && res.isEnded) {
+        console.log('发放奖励！', res)
+      } else {
+        console.log('无奖励！')
+      }
+    })
   }
 
   startPlayXAd() {

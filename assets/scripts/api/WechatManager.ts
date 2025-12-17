@@ -6,6 +6,7 @@ import { IPlatform } from '../interfaces/IPlatform'
 @ccclass('WechatManager')
 export class WechatManager implements IPlatform {
   private _rewardedVideoAd = null
+  private _rewardedCallback: Function = null
 
   init() {
     this.createBannerAd()
@@ -27,36 +28,44 @@ export class WechatManager implements IPlatform {
 
   hideBannerAd() { }
 
+  /**
+   * 激励广告初始化
+   */
   createRewardedVideodAd() {
     this._rewardedVideoAd = wx.createRewardedVideodAd({
       adUnitId: wechatConfig.rewardedVideoID
     })
-  }
 
-  showRewardedVideoAd() {
-    this._rewardedVideoAd.onLoad((res) => {
-      console.log('激励广告onLoad：', res)
+    this._rewardedVideoAd.onLoad(() => {
+      console.log('加载激励广告！')
     })
 
+    this._rewardedVideoAd.onError((err) => {
+      console.error('激励广告错误：', err)
+    })
+
+    this._rewardedVideoAd.onClose((res) => {
+      console.log('激励广告关闭：', res.isEnded)
+      if (this._rewardedCallback) this._rewardedCallback(res)
+    })
+  }
+
+  /**
+   * 播放激励广告
+   * @param callback 
+   */
+  showRewardedVideoAd(callback) {
+    this._rewardedCallback = callback
     this._rewardedVideoAd.show(() => {
-      console.error('激励视频广告显示成功！')
+      console.error('激励广告显示！')
     }).catch(err => {
-      console.error('激励广告show失败：', err)
-      console.log('重新拉取广告~')
+      console.error('激励广告错误：', err)
       this._rewardedVideoAd.load()
         .then(() => this._rewardedVideoAd.show())
     })
-
-    this._rewardedVideoAd.onError(err => {
-      console.error('激励广告onError：', err)
-    })
   }
 
-  showRewardedVideoAd(callback) {
-    this._rewardedVideoAd.onClose((res) => {
-      callback(res)
-    })
-  }
+  hideRewardedVideoAd() { }
 
   createInterstitialAd() { }
 
