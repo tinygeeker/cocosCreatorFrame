@@ -8,11 +8,11 @@ export class FeedBackManager extends Component {
   }
 
   openFeedBack() {
-    this.node.active = true
+    this.node.active = true;
   }
 
   quitFeedBack() {
-    this.node.active = false
+    this.node.active = false;
   }
 
   update(deltaTime: number) {

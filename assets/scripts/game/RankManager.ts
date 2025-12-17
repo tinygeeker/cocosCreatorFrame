@@ -8,11 +8,11 @@ export class RankManager extends Component {
   }
 
   openRank() {
-    this.node.active = true
+    this.node.active = true;
   }
 
   quitRank() {
-    this.node.active = false
+    this.node.active = false;
   }
 
   update(deltaTime: number) {

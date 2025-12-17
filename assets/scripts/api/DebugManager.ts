@@ -10,7 +10,7 @@ export class DebugManager implements IPlatform {
 
   init() {
     this.createBannerAd()
-    this.createRewardedVideodAd()
+    this.createRewardedVideoAd()
     this.createInterstitialAd()
   }
 
@@ -28,7 +28,7 @@ export class DebugManager implements IPlatform {
 
   hideBannerAd() { }
 
-  createRewardedVideodAd() {
+  createRewardedVideoAd() {
 
   }
 

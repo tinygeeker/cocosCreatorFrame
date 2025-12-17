@@ -6,7 +6,7 @@ export declare interface IPlatform {
   createBannerAd()
   showBannerAd()
   hideBannerAd()
-  createRewardedVideodAd()
+  createRewardedVideoAd()
   showRewardedVideoAd(callback)
   hideRewardedVideoAd()
   createInterstitialAd()

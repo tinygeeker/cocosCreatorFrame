@@ -9,11 +9,11 @@ export class SettingManager extends Component {
   }
 
   openSetting() {
-    this.node.active = true
+    this.node.active = true;
   }
 
   quitSetting() {
-    this.node.active = false
+    this.node.active = false;
   }
 
   changeBgAudio() {

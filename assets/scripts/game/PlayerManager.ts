@@ -7,11 +7,11 @@ export class PlayerManager extends Component {
     type: Prefab,
     displayName: '文字预制体'
   })
-  labelPrefab: Prefab = null
+  labelPrefab: Prefab = null;
   // labelNode: Node = null
 
 
-  private _scale: Vec3 = new Vec3(1, 1, 1)
+  private _scale: Vec3 = new Vec3(1, 1, 1);
 
   protected onLoad(): void {
   }
@@ -33,10 +33,10 @@ export class PlayerManager extends Component {
           console.log('Tween动画完成')
         }
       })
-      .start()
+      .start();
 
-    const labelNode = instantiate(this.labelPrefab)
-    labelNode.setParent(this.node.getParent().getChildByName('GameDisplay'))
+    const labelNode = instantiate(this.labelPrefab);
+    labelNode.setParent(this.node.getParent().getChildByName('GameDisplay'));
 
     const anim = labelNode.getComponent(Animation);
 

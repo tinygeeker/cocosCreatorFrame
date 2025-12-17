@@ -10,6 +10,7 @@ export class ApiManager extends Component {
     switch (sys.platform) {
       case sys.Platform.WECHAT_GAME:
         window.platform = new WechatManager();
+        break;
       default:
         window.platform = new DebugManager();
     }
@@ -19,50 +20,50 @@ export class ApiManager extends Component {
   }
 
   openApi() {
-    this.node.active = true
+    this.node.active = true;
   }
 
   quitApi() {
-    this.node.active = false
+    this.node.active = false;
   }
 
   shareToFriend() {
-    console.log('分享给朋友~')
+    console.log('分享给朋友~');
 
   }
 
   shareToLine() {
-    console.log('分享朋友圈~')
+    console.log('分享朋友圈~');
   }
 
   startPlayBannerAd() {
-    console.log('播放banner广告~')
+    console.log('播放banner广告~');
   }
 
   startPlayInterAd() {
     window.platform.showRewardedVideoAd((res) => {
       if (res && res.isEnded) {
-        console.log('发放奖励！', res)
+        console.log('发放奖励！', res);
       } else {
-        console.log('无奖励！')
+        console.log('无奖励！');
       }
     })
   }
 
   startPlayXAd() {
-    console.log('播放插屏广告~')
+    console.log('播放插屏广告~');
   }
 
   rank() {
-    console.log('打开排行榜~')
+    console.log('打开排行榜~');
   }
 
   pay() {
-    console.log('点击支付~')
+    console.log('点击支付~');
   }
 
   vebrator() {
-    console.log('手机物理功能-震动~')
+    console.log('手机物理功能-震动~');
   }
 
   changeBgAudio() {

@@ -10,7 +10,7 @@ export class WechatManager implements IPlatform {
 
   init() {
     this.createBannerAd()
-    this.createRewardedVideodAd()
+    this.createRewardedVideoAd()
     this.createInterstitialAd()
   }
 
@@ -31,10 +31,14 @@ export class WechatManager implements IPlatform {
   /**
    * 激励广告初始化
    */
-  createRewardedVideodAd() {
-    this._rewardedVideoAd = wx.createRewardedVideodAd({
-      adUnitId: wechatConfig.rewardedVideoID
+  createRewardedVideoAd() {
+    this._rewardedVideoAd = wx.createRewardedVideoAd({
+      adUnitId: 'adunit-4271698a7adef832'
     })
+
+    console.log(window.CC_DEBUG)
+    console.log(wechatConfig.rewardedVideoID)
+    console.log(this._rewardedVideoAd)
 
     this._rewardedVideoAd.onLoad(() => {
       console.log('加载激励广告！')
