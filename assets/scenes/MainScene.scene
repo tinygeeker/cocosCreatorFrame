@@ -11278,7 +11278,7 @@
     },
     "component": "",
     "_componentId": "03c592zwrNLyJJTDKgIi0JZ",
-    "handler": "getUserInfo",
+    "handler": "requestPost",
     "customEventData": ""
   },
   {
@@ -11604,7 +11604,7 @@
     },
     "component": "",
     "_componentId": "03c592zwrNLyJJTDKgIi0JZ",
-    "handler": "pay",
+    "handler": "requestGet",
     "customEventData": ""
   },
   {

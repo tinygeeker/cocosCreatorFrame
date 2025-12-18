@@ -25,7 +25,7 @@ export class CommonUIManager {
 
     constructor() {
         // 加载toast管理节点 预制体
-        resources.load('Prefabs/CommonUICanvas', Prefab, (err, prefab: Prefab) => {
+        resources.load('prefabs/CommonUICanvas', Prefab, (err, prefab: Prefab) => {
             if (err) {
                 console.error('加载预制体失败:', err);
                 return;
@@ -46,7 +46,7 @@ export class CommonUIManager {
     // 创建Toast提示
     private ToastCreate(message: string, duration: number = 2) {
         // 加载预制体
-        resources.load('Prefabs/Toast', Prefab, (err, prefab: Prefab) => {
+        resources.load('prefabs/Toast', Prefab, (err, prefab: Prefab) => {
             if (err) {
                 console.error('加载预制体失败:', err);
                 return;
@@ -111,7 +111,7 @@ export class CommonUIManager {
     // 创建加载动画
     private LoadingCreate(message) {
         // 加载预制体
-        resources.load('Prefabs/Loading', Prefab, (err, prefab: Prefab) => {
+        resources.load('prefabs/Loading', Prefab, (err, prefab: Prefab) => {
             if (err) {
                 console.error('加载预制体失败:', err);
                 return;
