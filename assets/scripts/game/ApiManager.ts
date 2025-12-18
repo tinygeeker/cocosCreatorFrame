@@ -65,8 +65,8 @@ export class ApiManager extends Component {
   }
 
   vebrator() {
-    window.platform.vibrateShort('heavy', (res) => {
-      console.log('heavy振动：', res)
+    window.platform.vibrateShort('heavy', () => {
+      console.log('振动完成！')
     })
   }
 

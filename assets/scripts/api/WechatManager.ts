@@ -66,6 +66,7 @@ export class WechatManager implements IPlatform {
   }
 
   getUserinfo(callback) {
+    let _this = this
     wx.getSetting({
       success(res) {
         if (res.authSetting['scope.userInfo'] === true) {
@@ -75,13 +76,13 @@ export class WechatManager implements IPlatform {
             },
           });
         } else {
-          this.createUserInfoButton(callback)
+          _this.createUserInfoButton(callback)
         }
       },
     });
   }
 
-  createUserInfoButton(successCallback, errorCallback, target) {
+  createUserInfoButton(successCallback) {
     const button = wx.createUserInfoButton({
       type: 'text',
       text: '获取用户信息',
@@ -186,14 +187,14 @@ export class WechatManager implements IPlatform {
   vibrateShort(type, callback) {
     wx.vibrateShort({
       type: type,
-      success: (res) => {
-        callback(res)
+      success: () => {
+        callback()
       },
       fail: (res) => {
         console.error('短振动失败：', res)
       },
       complete: (res) => {
-        console.error('短振动完成：', res)
+        console.log('短振动完成：', res)
       },
     })
   }
@@ -207,7 +208,7 @@ export class WechatManager implements IPlatform {
         console.error('长振动失败：', res)
       },
       complete: (res) => {
-        console.error('长振动完成：', res)
+        console.log('长振动完成：', res)
       },
     })
   }

@@ -18,7 +18,7 @@ export class DebugManager implements IPlatform {
 
   getUserinfo() { }
 
-  createUserInfoButton(successCallback, errorCallback, target) { }
+  createUserInfoButton(successCallback) { }
 
   createBannerAd() {
 
