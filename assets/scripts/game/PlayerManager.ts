@@ -8,8 +8,6 @@ export class PlayerManager extends Component {
     displayName: '文字预制体'
   })
   labelPrefab: Prefab = null;
-  // labelNode: Node = null
-
 
   private _scale: Vec3 = new Vec3(1, 1, 1);
 

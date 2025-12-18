@@ -25,5 +25,7 @@ export const wechatConfig = {
     : '',
   bannerID: dev
     ? 'adunit-44e0fbf1c6f50f00'
-    : ''
+    : '',
+  showShareMenu: ['shareAppMessage', 'shareTimeline'],
+  onlyFromCamera: false // 只允许从相机扫码
 };

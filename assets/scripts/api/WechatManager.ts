@@ -9,20 +9,99 @@ export class WechatManager implements IPlatform {
   private _rewardedCallback: Function = null
 
   init() {
-    wx.showShareMenu({
-      menus: ['shareAppMessage', 'shareTimeline']
-    })
-    console.log('开放分享')
+    this.initShare()
     this.createBannerAd()
     this.createRewardedVideoAd()
     this.createInterstitialAd()
   }
 
-  login() { }
+  initShare() {
+    if (wechatConfig.showShareMenu) {
+      wx.showShareMenu({
+        menus: wechatConfig.showShareMenu
+      })
+    }
+  }
 
-  getUserinfo() { }
+  onShareAppMessage(title) {
+    if (wechatConfig.showShareMenu.indexOf('shareAppMessage') == -1) {
+      console.error('未开启转发功能');
+      return
+    }
+    wx.onShareAppMessage(function () {
+      return {
+        title: title
+      }
+    })
+  }
 
-  createUserInfoButton(successCallback, errorCallback, target) { }
+  onShareTimeline(title) {
+    if (wechatConfig.showShareMenu.indexOf('shareTimeline') == -1) {
+      console.error('未开启分享朋友圈功能');
+      return
+    }
+    wx.onShareTimeline(function () {
+      return {
+        title: title
+      }
+    })
+  }
+
+  login() {
+    wx.login({
+      success(res) {
+        if (res.code) {
+          //发起网络请求
+          wx.request({
+            url: 'https://example.com/onLogin',
+            data: {
+              code: res.code
+            }
+          })
+        } else {
+          console.log('登录失败！' + res.errMsg)
+        }
+      }
+    })
+  }
+
+  getUserinfo(callback) {
+    wx.getSetting({
+      success(res) {
+        if (res.authSetting['scope.userInfo'] === true) {
+          wx.getUserInfo({
+            success: (res) => {
+              callback(res)
+            },
+          });
+        } else {
+          this.createUserInfoButton(callback)
+        }
+      },
+    });
+  }
+
+  createUserInfoButton(successCallback, errorCallback, target) {
+    const button = wx.createUserInfoButton({
+      type: 'text',
+      text: '获取用户信息',
+      style: {
+        left: 10,
+        top: 76,
+        width: 200,
+        height: 40,
+        lineHeight: 40,
+        backgroundColor: '#ff0000',
+        color: '#ffffff',
+        textAlign: 'center',
+        fontSize: 16,
+        borderRadius: 4
+      }
+    })
+    button.onTap((res) => {
+      successCallback(res)
+    })
+  }
 
   createBannerAd() {
 
@@ -69,6 +148,72 @@ export class WechatManager implements IPlatform {
   showInterstitial() { }
 
   hideInterstitial() { }
+
+  writePhotosAlbum() {
+    wx.getSetting({
+      success(res) {
+        if (!res.authSetting['scope.writePhotosAlbum']) {
+          wx.authorize({
+            scope: 'scope.writePhotosAlbum',
+            success() {
+              wx.saveImageToPhotosAlbum()
+            }
+          })
+        }
+      }
+    })
+  }
+
+  createFeedbackButton() {
+    let button = wx.createFeedbackButton({
+      type: 'text',
+      text: '打开意见反馈页面',
+      style: {
+        left: 10,
+        top: 76,
+        width: 200,
+        height: 40,
+        lineHeight: 40,
+        backgroundColor: '#ff0000',
+        color: '#ffffff',
+        textAlign: 'center',
+        fontSize: 16,
+        borderRadius: 4
+      }
+    })
+  }
+
+  vibrateShort() {
+    wx.vibrateShort({
+      type: 'heavy',
+      success: (res) => {
+
+      },
+      fail: (res) => {
+
+      },
+      complete: (res) => {
+
+      },
+    })
+  }
+
+  vibrateLong() {
+    wx.vibrateLong({
+      success: (res) => { },
+      fail: (res) => { },
+      complete: (res) => { },
+    })
+  }
+
+  scanCode(callback) {
+    wx.scanCode({
+      onlyFromCamera: wechatConfig.onlyFromCamera,
+      success(res) {
+        callback(res)
+      }
+    })
+  }
 }
 
 

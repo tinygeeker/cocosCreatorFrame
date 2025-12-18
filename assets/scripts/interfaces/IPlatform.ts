@@ -1,7 +1,7 @@
 export declare interface IPlatform {
   init()
   login()
-  getUserinfo()
+  getUserinfo(callback)
   createUserInfoButton(successCallback, errorCallback, target)
   createBannerAd()
   showBannerAd()
