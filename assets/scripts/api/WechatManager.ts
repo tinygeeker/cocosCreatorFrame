@@ -47,17 +47,11 @@ export class WechatManager implements IPlatform {
     })
   }
 
-  login() {
+  login(callback) {
     wx.login({
       success(res) {
         if (res.code) {
-          //发起网络请求
-          wx.request({
-            url: 'https://example.com/onLogin',
-            data: {
-              code: res.code
-            }
-          })
+          callback(res)
         } else {
           console.log('登录失败！' + res.errMsg)
         }

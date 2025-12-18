@@ -19,6 +19,12 @@ export class ApiManager extends Component {
     window.platform.init()
   }
 
+  login() {
+    window.platform.login((res) => {
+      console.log('登录成功：', res);
+    });
+  }
+
   openApi() {
     this.node.active = true;
   }

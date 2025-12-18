@@ -14,7 +14,7 @@ export class DebugManager implements IPlatform {
     this.createInterstitialAd()
   }
 
-  login() { }
+  login(callback) { }
 
   getUserinfo() { }
 
