@@ -11278,7 +11278,7 @@
     },
     "component": "",
     "_componentId": "03c592zwrNLyJJTDKgIi0JZ",
-    "handler": "requestPost",
+    "handler": "getUserInfo",
     "customEventData": ""
   },
   {
@@ -11604,7 +11604,7 @@
     },
     "component": "",
     "_componentId": "03c592zwrNLyJJTDKgIi0JZ",
-    "handler": "requestGet",
+    "handler": "pay",
     "customEventData": ""
   },
   {
@@ -13075,7 +13075,7 @@
     "__type__": "cc.PrefabInfo",
     "root": null,
     "asset": null,
-    "fileId": "fe49d7ec-7102-4352-8b64-ac1308f44735",
+    "fileId": "8d2cf7fe-ffb1-4f7a-a527-486a2a553159",
     "instance": null,
     "targetOverrides": null
   },

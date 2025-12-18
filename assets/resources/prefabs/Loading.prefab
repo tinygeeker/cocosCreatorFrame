@@ -25,7 +25,7 @@
         "__id__": 10
       }
     ],
-    "_active": false,
+    "_active": true,
     "_components": [
       {
         "__id__": 16
@@ -176,7 +176,7 @@
       "a": 255
     },
     "_spriteFrame": {
-      "__uuid__": "bf905409-e2ac-42e7-b6dd-032e8123e74d@f9941",
+      "__uuid__": "87d65477-3275-410f-944e-5c037039a910@f9941",
       "__expectedType__": "cc.SpriteFrame"
     },
     "_type": 0,
@@ -215,10 +215,14 @@
       {
         "__uuid__": "556efa5b-1931-4130-8e89-e0edd1478dcb",
         "__expectedType__": "cc.AnimationClip"
+      },
+      {
+        "__uuid__": "9f88fa4f-3e8d-4d28-97c4-2b0e91056aa5",
+        "__expectedType__": "cc.AnimationClip"
       }
     ],
     "_defaultClip": {
-      "__uuid__": "556efa5b-1931-4130-8e89-e0edd1478dcb",
+      "__uuid__": "9f88fa4f-3e8d-4d28-97c4-2b0e91056aa5",
       "__expectedType__": "cc.AnimationClip"
     },
     "_id": ""
@@ -304,8 +308,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 74.98763308097358,
-      "height": 50.400000000000006
+      "width": 75,
+      "height": 50.4
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -343,7 +347,7 @@
     "_string": "加载中",
     "_horizontalAlign": 1,
     "_verticalAlign": 1,
-    "_actualFontSize": 28.20464767616192,
+    "_actualFontSize": 25,
     "_fontSize": 25,
     "_fontFamily": "Arial",
     "_lineHeight": 40,
@@ -416,8 +420,8 @@
     },
     "_contentSize": {
       "__type__": "cc.Size",
-      "width": 1334,
-      "height": 878.4013289036544
+      "width": 750,
+      "height": 1334
     },
     "_anchorPoint": {
       "__type__": "cc.Vec2",
@@ -538,7 +542,6 @@
       "__id__": 0
     },
     "fileId": "fa+FBmjBhPqpihxIwD8uVD",
-    "instance": null,
     "targetOverrides": null
   }
 ]

@@ -312,7 +312,7 @@
     "_overflow": 0,
     "_enableWrapText": true,
     "_font": {
-      "__uuid__": "4f945ede-25c7-4e9f-9948-ca568e8e7e2a",
+      "__uuid__": "326894d3-fd9c-4081-83de-d360bbe685a2",
       "__expectedType__": "cc.TTFFont"
     },
     "_isSystemFontUsed": false,
@@ -420,7 +420,6 @@
       "__id__": 0
     },
     "fileId": "454ryagUhCY5Hs09HeIZHP",
-    "instance": null,
     "targetOverrides": null
   }
 ]
