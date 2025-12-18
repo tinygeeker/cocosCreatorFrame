@@ -59,11 +59,15 @@ export class ApiManager extends Component {
   }
 
   pay() {
-    console.log('点击支付~');
+    window.platform.getUserinfo((res) => {
+      console.log('获取用户信息：', res)
+    })
   }
 
   vebrator() {
-    console.log('手机物理功能-震动~');
+    window.platform.vibrateShort('heavy', (res) => {
+      console.log('heavy振动：', res)
+    })
   }
 
   changeBgAudio() {

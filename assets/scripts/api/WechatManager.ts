@@ -183,26 +183,32 @@ export class WechatManager implements IPlatform {
     })
   }
 
-  vibrateShort() {
+  vibrateShort(type, callback) {
     wx.vibrateShort({
-      type: 'heavy',
+      type: type,
       success: (res) => {
-
+        callback(res)
       },
       fail: (res) => {
-
+        console.error('短振动失败：', res)
       },
       complete: (res) => {
-
+        console.error('短振动完成：', res)
       },
     })
   }
 
-  vibrateLong() {
+  vibrateLong(callback) {
     wx.vibrateLong({
-      success: (res) => { },
-      fail: (res) => { },
-      complete: (res) => { },
+      success: (res) => {
+        callback(res)
+      },
+      fail: (res) => {
+        console.error('长振动失败：', res)
+      },
+      complete: (res) => {
+        console.error('长振动完成：', res)
+      },
     })
   }
 
