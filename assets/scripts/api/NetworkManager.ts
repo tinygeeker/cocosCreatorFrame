@@ -54,14 +54,19 @@ class NetworkManager {
             data: JSON.parse(interceptedOptions.body),
             header: interceptedOptions.headers,
             success: (res) => {
-              console.log("wx请求成功", res)
+              console.log('wx请求成功：', res)
               resolve(res.data)
             },
             fail: reject
           });
         });
       } else {
-        response = await fetch(this.baseUrl + url, interceptedOptions);
+        console.log(interceptedOptions)
+        if (interceptedOptions.method == 'GET') {
+          response = await fetch(this.baseUrl + url);
+        } else {
+          response = await fetch(this.baseUrl + url, interceptedOptions);
+        }
       }
     } catch (error) {
       console.error('请求失败:', error);

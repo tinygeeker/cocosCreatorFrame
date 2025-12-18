@@ -49,14 +49,43 @@ export class WechatManager implements IPlatform {
 
   login(callback) {
     wx.login({
-      success(res) {
-        if (res.code) {
-          callback(res)
-        } else {
-          console.log('登录失败！' + res.errMsg)
-        }
-      }
-    })
+      timeout: "6000",
+      success: async (res) => {
+        console.log(res);
+        // 调用接口获取openid
+        // let response = await post("/codeGetOpenId", {
+        //   code: res.code,
+        //   getRegister: false, // 不去查询用户是否注册
+        // });
+        // const { openid } = response.data;
+
+        // if (response.code === 200) {
+        //   wx.getUserProfile({
+        //     lang: 'zh_CN',
+        //     desc: '展示用户信息',
+        //     success: async (data) => {
+        //       // 当前用户取绑定微信账号
+        //       let res = await post("/userBindWx", {
+        //         openid: openid,
+        //         wxUserInfo: data.userInfo
+        //       });
+        //       if (res.code == 200 && res.data == true) {
+        //         CommonUIManager.inst.showToast("绑定成功");
+        //         this.BindWx.getChildByName("Bound").active = true;
+        //         this.BindWx.getChildByName("BindWxBtn").active = false;
+        //         // 更新用户信息
+        //         find("Canvas").getComponent(HallSceneMgr).getUserInfo(true);
+        //       } else {
+        //         CommonUIManager.inst.showToast(res.message);
+        //       }
+        //     }
+        //   })
+        // }
+      },
+      fail: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   getUserinfo(callback) {
