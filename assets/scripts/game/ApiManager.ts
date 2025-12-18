@@ -1,5 +1,6 @@
 import { _decorator, Component, Node, sys } from 'cc';
 import { CommonUIManager } from '../CommonUIManager';
+import { post, get } from '../api/NetworkManager';
 import { WechatManager } from '../api/WechatManager';
 import { DebugManager } from '../api/DebugManager';
 const { ccclass, property } = _decorator;
@@ -17,6 +18,22 @@ export class ApiManager extends Component {
 
     console.log('初始化平台：', sys.platform)
     window.platform.init()
+  }
+
+  requestPost() {
+    let resp = post('/post', {
+      username: 'tinygeeker'
+    })
+
+    console.log(resp)
+  }
+
+  requestGet() {
+    let resp = get('/get', {
+      username: 'tinygeeker'
+    })
+
+    console.log(resp)
   }
 
   login() {
