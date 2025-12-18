@@ -27,20 +27,19 @@ export class ApiManager extends Component {
     this.node.active = false;
   }
 
-  shareToFriend() {
-    console.log('分享给朋友~');
-
+  shareAppMessage() {
+    window.platform.onShareAppMessage('亮仔转发测试');
   }
 
-  shareToLine() {
-    console.log('分享朋友圈~');
+  shareTimeline() {
+    window.platform.onShareTimeline('亮仔分享到朋友圈测试');
   }
 
-  startPlayBannerAd() {
+  playBannerAd() {
     console.log('播放banner广告~');
   }
 
-  startPlayInterAd() {
+  playRewardedVideoAd() {
     window.platform.showRewardedVideoAd((res) => {
       if (res && res.isEnded) {
         console.log('发放奖励！', res);
@@ -50,12 +49,18 @@ export class ApiManager extends Component {
     })
   }
 
-  startPlayXAd() {
+  playInterstitialAd() {
     console.log('播放插屏广告~');
   }
 
   rank() {
     console.log('打开排行榜~');
+  }
+
+  getUserInfo() {
+    window.platform.getUserinfo((res) => {
+      console.log('获取用户信息：', res)
+    })
   }
 
   pay() {
@@ -64,9 +69,15 @@ export class ApiManager extends Component {
     })
   }
 
-  vebrator() {
+  vibrateShort() {
     window.platform.vibrateShort('heavy', () => {
-      console.log('振动完成！')
+      console.log('短振动完成！')
+    })
+  }
+
+  vibrateLong() {
+    window.platform.vibrateLong(() => {
+      console.log('长振动完成！')
     })
   }
 
