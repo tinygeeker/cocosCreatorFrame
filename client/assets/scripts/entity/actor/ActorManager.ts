@@ -17,7 +17,7 @@ export class ActorManager extends EntityManager {
 
   init(data: IActor) {
     this.bulletType = data.bulletType
-    // 这里不是很懂，做人物状态机（目的：让人物播放对应的动画）
+    // 初始化状态机,这里不是很懂，做人物状态机（目的：让人物播放对应的动画）
     this.fsm = this.addComponent(ActorStateMachine)
     this.fsm.init(data.type)
     this.state = EntityStateEnum.Idle
@@ -31,15 +31,19 @@ export class ActorManager extends EntityManager {
   }
 
   render(data: IActor) {
+    // 渲染人物位置
     const { direction, position } = data
     this.node.setPosition(position.x, position.y)
 
+    // 渲染人物朝向
     if (direction.x !== 0) {
       this.node.setScale(direction.x > 0 ? 1 : -1, 1)
     }
 
     // 不能直接用正切，否则翻转反方向的时候，计算会错误
-    // const rad = Math.tan(direction.y / direction.x)
+    // const rad = Math.atan(direction.y / direction.x)
+
+    // 渲染武器朝向
     const side = Math.sqrt(direction.x ** 2 + direction.y ** 2)
     const rad = Math.asin(direction.y / side)
     const angle = (rad / Math.PI) * 180
@@ -51,8 +55,10 @@ export class ActorManager extends EntityManager {
   }
 
   tick(deltaTime: number) {
+    // 当摇杆移动时，更新用户的位置状态
     if (DataManager.instance.jm.input.length()) {
       const { x, y } = DataManager.instance.jm.input
+
       DataManager.instance.applyInput({
         id: 1,
         type: InputTypeEnum.ActorMove,

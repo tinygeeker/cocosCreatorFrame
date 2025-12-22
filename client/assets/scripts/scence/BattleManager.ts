@@ -4,38 +4,45 @@ import { JoyStickManager } from '../game/JoyStickManager';
 import { ResourceManager } from '../global/ResoureManager';
 import { ActorManager } from '../entity/actor/ActorManager';
 import { PrefabPathEnum, texturePathEnum } from '../Enum';
-import { EntityTypeEnum } from '../common';
+import { EntityTypeEnum, InputTypeEnum } from '../common';
+import { BulletManager } from '../entity/bullet/BulletManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BattleManager')
 export class BattleManager extends Component {
   private stage: Node
   private ui: Node
-  private _shouldUpdate: boolean = false
+  private _shouldUpdate: boolean = false // 是否异步资源加载完成
 
   protected onLoad(): void {
+    // 获取场景相关结点
     DataManager.instance.stage = this.stage = this.node.getChildByName('GameLayout')
     this.ui = this.node.getChildByName('GameControl')
+
+    // 销毁场景下所有节点，改成动态添加，方便控制
     this.stage.destroyAllChildren()
+
+    // 获取摇杆管理器
     DataManager.instance.jm = this.ui.getComponentInChildren(JoyStickManager)
   }
 
   protected onDestroy(): void {
   }
 
-
-  onTouchEnd() {
-
-  }
-
   async start() {
+    // 异步加载资源，加载完成后继续执行
     await this.loadRes()
+
+    // 初始化地图
     this.initMap()
+
+    // 是否加载完成
     this._shouldUpdate = true
   }
 
   async loadRes() {
     const list = []
+    // 加载所有预制体
     for (const type in PrefabPathEnum) {
       const p = ResourceManager.instance.loadRes(PrefabPathEnum[type], Prefab).then((prefab) => {
         DataManager.instance.prefabMap.set(type, prefab)
@@ -43,6 +50,7 @@ export class BattleManager extends Component {
       list.push(p)
     }
 
+    // 加载所有贴图
     for (const type in texturePathEnum) {
       const p = ResourceManager.instance.loadDir(texturePathEnum[type], SpriteFrame).then((spriteFrames) => {
         console.log('[load texture]', type)
@@ -51,6 +59,7 @@ export class BattleManager extends Component {
       list.push(p)
     }
 
+    // 等待加载完成
     await Promise.all(list)
   }
 
@@ -66,20 +75,9 @@ export class BattleManager extends Component {
     this.tick(deltaTime)
   }
 
-  tick(dt) {
-    this.tickActor(dt)
-  }
-
-  tickActor(dt) {
-    for (const data of DataManager.instance.state.actors) {
-      const { id } = data
-      let actorManager = DataManager.instance.actorMap.get(id)
-      actorManager.tick(dt)
-    }
-  }
-
   render() {
     this.renderActor()
+    this.renderBullet()
   }
 
   renderActor() {
@@ -97,6 +95,41 @@ export class BattleManager extends Component {
       } else {
         actorManager.render(data)
       }
+    }
+  }
+
+  renderBullet() {
+    for (const data of DataManager.instance.state.bullets) {
+      let { id, type } = data
+      let bulletManager = DataManager.instance.bulletMap.get(id)
+      if (!bulletManager) {
+        // let prefab = await ResourceManager.instance.loadRes('prefabs/Actor', Prefab) // 防止未加载一直执行
+        let prefab = DataManager.instance.prefabMap.get(type)
+        let actor = instantiate(prefab)
+        actor.setParent(this.stage)
+        bulletManager = actor.addComponent(BulletManager)
+        DataManager.instance.bulletMap.set(data.id, bulletManager)
+        bulletManager.init(data)
+      } else {
+        bulletManager.render(data)
+      }
+    }
+  }
+
+  tick(dt) {
+    this.tickActor(dt)
+
+    DataManager.instance.applyInput({
+      type: InputTypeEnum.TimePast,
+      dt
+    })
+  }
+
+  tickActor(dt) {
+    for (const data of DataManager.instance.state.actors) {
+      const { id } = data
+      let actorManager = DataManager.instance.actorMap.get(id)
+      actorManager.tick(dt)
     }
   }
 }

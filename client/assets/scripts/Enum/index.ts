@@ -17,14 +17,16 @@ export enum EventEnum {
 export enum PrefabPathEnum {
   Map = 'prefabs/Map',
   Actor1 = 'prefabs/Actor',
-  Weapon1 = 'prefabs/Weapon1'
+  Weapon1 = 'prefabs/Weapon1',
+  Bullet2 = 'prefabs/Bullet2'
 }
 
 export enum texturePathEnum {
   Actor1Idle = 'textures/actor/actor1/idle',
   Actor1Run = 'textures/actor/actor1/run',
   Weapon1Idle = 'textures/weapon/weapon1/idle',
-  Weapon1Attack = 'textures/weapon/weapon1/attack'
+  Weapon1Attack = 'textures/weapon/weapon1/attack',
+  Bullet2Idle = 'textures/bullet/bullet2'
 }
 
 export enum EntityStateEnum {

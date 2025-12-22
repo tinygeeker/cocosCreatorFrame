@@ -3,28 +3,34 @@ import SingletonManager from "../base/SingletonManager";
 import { EntityTypeEnum, IActorMove, IBullet, IClientInput, InputTypeEnum, IState } from "../common";
 import { ActorManager } from "../entity/actor/ActorManager";
 import { JoyStickManager } from "../game/JoyStickManager";
+import { BulletManager } from "../entity/bullet/BulletManager";
 
 export default class DataManager extends SingletonManager {
 
-  ACTOR_SPEED = 100
+  ACTOR_SPEED = 100 // 角色移动速度
+  BULLET_SPEED = 600 // 子弹移动速度
+  MAP_WIDTH = 1334 // 地图宽度
+  MAP_HEIGHT = 750 // 地图高度
 
   static get instance() {
     return super.GetInstance<DataManager>()
   }
 
-  stage: Node
-  jm: JoyStickManager
+  stage: Node // 游戏场景节点
+  jm: JoyStickManager // 摇杆管理器
   actorMap: Map<number, ActorManager> = new Map()
+  bulletMap: Map<number, BulletManager> = new Map()
   prefabMap: Map<string, Prefab> = new Map()
   textureMap: Map<string, SpriteFrame[]> = new Map()
 
+  // 游戏所有的数据状态
   state: IState = {
     actors: [
       {
         id: 1,
         type: EntityTypeEnum.Actor1,
         weaponType: EntityTypeEnum.Weapon1,
-        bulletType: EntityTypeEnum.Bullet1,
+        bulletType: EntityTypeEnum.Bullet2,
         position: {
           x: 0,
           y: 0
@@ -39,8 +45,10 @@ export default class DataManager extends SingletonManager {
     nextBulletId: 1
   }
 
+  // 每个对应的实体Manager中渲染实时用来修改上面的state的方法
   applyInput(input: IClientInput) {
     switch (input.type) {
+      // 角色移动
       case InputTypeEnum.ActorMove: {
         const { id, deltaTime, direction: { x, y } } = input
 
@@ -52,6 +60,7 @@ export default class DataManager extends SingletonManager {
         actor.position.y += y * deltaTime * this.ACTOR_SPEED
         break
       }
+      // 武器状态
       case InputTypeEnum.WeaponShoot: {
         const { owner, position, direction } = input
         const bullet: IBullet = {
@@ -63,6 +72,26 @@ export default class DataManager extends SingletonManager {
         }
 
         this.state.bullets.push(bullet)
+        break
+      }
+      // 时间流逝
+      case InputTypeEnum.TimePast: {
+        const { dt } = input
+        const { bullets } = this.state
+
+        // 超过屏幕删除子弹
+        for (let i = bullets.length - 1; i >= 0; i--) {
+          const bullet = bullets[i]
+          if (Math.abs(bullet.position.x) > this.MAP_WIDTH / 2 || Math.abs(bullet.position.y) > this.MAP_HEIGHT / 2) {
+            bullets.splice(i, 1)
+          }
+        }
+
+        // 更新子弹的位置
+        for (const bullet of bullets) {
+          bullet.position.x += bullet.direction.x * dt * this.BULLET_SPEED // 方向 * 时间 * 速度
+          bullet.position.y += bullet.direction.y * dt * this.BULLET_SPEED
+        }
       }
     }
   }
