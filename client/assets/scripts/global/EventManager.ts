@@ -7,7 +7,7 @@ interface IItem {
 }
 
 export default class EventManager extends SingletonManager {
-    static get Instance() {
+    static get instance() {
         return super.GetInstance<EventManager>();
     }
 
