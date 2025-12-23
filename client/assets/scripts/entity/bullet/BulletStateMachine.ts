@@ -23,7 +23,7 @@ export class BulletStateMachine extends StateMachine {
     this.stateMachines.set(ParamsNameEnum.Idle, new State(this, `${this.type}${EntityStateEnum.Idle}`, AnimationClip.WrapMode.Loop));
   }
 
-  initAnimationEvent() {}
+  initAnimationEvent() { }
 
   run() {
     switch (this.currentState) {

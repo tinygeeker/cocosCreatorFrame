@@ -28,15 +28,24 @@ export class WeaponManager extends EntityManager {
     this.fsm.init(data.weaponType)
     this.state = EntityStateEnum.Idle
 
+    EventManager.instance.on(EventEnum.BulletBorn, this.handleBulletBorn, this) // 枪头冒火特效
     EventManager.instance.on(EventEnum.WeaponShoot, this.weaponShoot, this) // 监听武器射击
   }
 
   protected onDestroy(): void {
-    EventManager.instance.off(EventEnum.WeaponShoot, this.weaponShoot, this)// 解绑监听武器射击
+    EventManager.instance.off(EventEnum.BulletBorn, this.handleBulletBorn, this) // 解绑枪头冒火特效 
+    EventManager.instance.off(EventEnum.WeaponShoot, this.weaponShoot, this) // 解绑监听武器射击
+  }
+
+  handleBulletBorn(owner: number) {
+    if (owner != this.owner) return
+    this.state = EntityStateEnum.Attack
   }
 
 
   weaponShoot() {
+    if(this.owner !== DataManager.instance.myPlayerId) return // 只能操作自己射击
+
     const pointWorldPos = this.point.getWorldPosition()
     const pointStagePos = DataManager.instance.stage.getComponent(UITransform).convertToNodeSpaceAR(pointWorldPos)
     const anchorWorldPos = this.anchor.getWorldPosition()

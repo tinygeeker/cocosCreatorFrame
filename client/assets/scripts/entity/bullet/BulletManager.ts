@@ -1,26 +1,49 @@
-import { _decorator, Component, director, instantiate, Node } from 'cc';
+import { _decorator, Component, director, instantiate, Node, Vec2 } from 'cc';
 import DataManager from '../../global/DataManager';
 import { EntityTypeEnum, IActor, IBullet, InputTypeEnum } from '../../common';
 import { EntityManager } from '../../base/EntityManager';
 import { BulletStateMachine } from './BulletStateMachine';
-import { EntityStateEnum } from '../../Enum';
+import { EntityStateEnum, EventEnum } from '../../Enum';
 import { WeaponManager } from '../weapon/WeaponManager';
+import EventManager from '../../global/EventManager';
+import { ExplosionManager } from '../explosion/ExplosionManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BulletManager')
 export class BulletManager extends EntityManager {
   type: EntityTypeEnum
+  id: number
 
   protected onLoad(): void {
   }
 
   init(data: IBullet) {
+    this.id = data.id
     this.type = data.type
     // 这里不是很懂，做子弹状态机（目的：让子弹播放对应的动画）
     this.fsm = this.addComponent(BulletStateMachine)
     this.fsm.init(data.type)
     this.state = EntityStateEnum.Idle
     this.node.active = false // 初始不可见,防止放在舞台上的子弹预制体一开始就显示出来
+
+    EventManager.instance.on(EventEnum.ExplosionBorn, this.handleExplosionBorn, this)
+  }
+
+  handleExplosionBorn(id: number, { x, y }: Vec2) {
+    if (id !== this.id) return
+
+    let prefab = DataManager.instance.prefabMap.get(EntityTypeEnum.Explosion)
+    let explosion = instantiate(prefab)
+    explosion.setParent(DataManager.instance.stage)
+
+    // 添加状态机
+    let em = explosion.addComponent(ExplosionManager)
+    em.init(EntityTypeEnum.Explosion, { x, y })
+
+    // 解绑事件
+    EventManager.instance.off(EventEnum.ExplosionBorn, this.handleExplosionBorn, this)
+    DataManager.instance.bulletMap.delete(this.id)
+    this.node.destroy()
   }
 
   render(data: IBullet) {

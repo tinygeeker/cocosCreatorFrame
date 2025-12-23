@@ -11,11 +11,13 @@ const { ccclass, property } = _decorator;
 export class ActorManager extends EntityManager {
   bulletType: EntityTypeEnum
   private wm: WeaponManager
+  private id: number
 
   protected onLoad(): void {
   }
 
   init(data: IActor) {
+    this.id = data.id
     this.bulletType = data.bulletType
     // 初始化状态机,这里不是很懂，做人物状态机（目的：让人物播放对应的动画）
     this.fsm = this.addComponent(ActorStateMachine)
@@ -55,6 +57,8 @@ export class ActorManager extends EntityManager {
   }
 
   tick(deltaTime: number) {
+    if (this.id !== DataManager.instance.myPlayerId) return // 只能操作自己位置
+
     // 当摇杆移动时，更新用户的位置状态
     if (DataManager.instance.jm.input.length()) {
       const { x, y } = DataManager.instance.jm.input

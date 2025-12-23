@@ -4,6 +4,8 @@ import { EntityTypeEnum, IActorMove, IBullet, IClientInput, InputTypeEnum, IStat
 import { ActorManager } from "../entity/actor/ActorManager";
 import { JoyStickManager } from "../game/JoyStickManager";
 import { BulletManager } from "../entity/bullet/BulletManager";
+import EventManager from "./EventManager";
+import { EventEnum } from "../Enum";
 
 export default class DataManager extends SingletonManager {
 
@@ -15,6 +17,8 @@ export default class DataManager extends SingletonManager {
   static get instance() {
     return super.GetInstance<DataManager>()
   }
+
+  myPlayerId = 1 // 当前玩家的Id,每次登录后会赋值
 
   stage: Node // 游戏场景节点
   jm: JoyStickManager // 摇杆管理器
@@ -32,11 +36,25 @@ export default class DataManager extends SingletonManager {
         weaponType: EntityTypeEnum.Weapon1,
         bulletType: EntityTypeEnum.Bullet2,
         position: {
-          x: 0,
-          y: 0
+          x: -150,
+          y: -150
         },
         direction: {
-          x: 0,
+          x: 1, // 起手拿枪
+          y: 0
+        }
+      },
+      {
+        id: 2,
+        type: EntityTypeEnum.Actor1,
+        weaponType: EntityTypeEnum.Weapon1,
+        bulletType: EntityTypeEnum.Bullet2,
+        position: {
+          x: 150,
+          y: 150
+        },
+        direction: {
+          x: -1,
           y: 0
         }
       }
@@ -71,6 +89,9 @@ export default class DataManager extends SingletonManager {
           type: this.actorMap.get(owner).bulletType
         }
 
+        // 改变武器状态（射击时枪头冒火）
+        EventManager.instance.emit(EventEnum.BulletBorn, owner)
+
         this.state.bullets.push(bullet)
         break
       }
@@ -83,6 +104,9 @@ export default class DataManager extends SingletonManager {
         for (let i = bullets.length - 1; i >= 0; i--) {
           const bullet = bullets[i]
           if (Math.abs(bullet.position.x) > this.MAP_WIDTH / 2 || Math.abs(bullet.position.y) > this.MAP_HEIGHT / 2) {
+            // 监听子弹爆炸事件
+            EventManager.instance.emit(EventEnum.ExplosionBorn, bullet.id, { x: bullet.position.x, y: bullet.position.y })
+
             bullets.splice(i, 1)
           }
         }
