@@ -7,6 +7,10 @@ import { BulletManager } from "../entity/bullet/BulletManager";
 import EventManager from "./EventManager";
 import { EventEnum } from "../Enum";
 
+const ACTOR_RADIUS = 50 // 人物半径
+const BULLET_RADIUS = 10 // 子弹半径
+const BULLET_DAMAGE = 5 // 子弹伤害
+
 export default class DataManager extends SingletonManager {
 
   ACTOR_SPEED = 100 // 角色移动速度
@@ -35,6 +39,7 @@ export default class DataManager extends SingletonManager {
         type: EntityTypeEnum.Actor1,
         weaponType: EntityTypeEnum.Weapon1,
         bulletType: EntityTypeEnum.Bullet2,
+        hp: 100,
         position: {
           x: -150,
           y: -150
@@ -49,6 +54,7 @@ export default class DataManager extends SingletonManager {
         type: EntityTypeEnum.Actor1,
         weaponType: EntityTypeEnum.Weapon1,
         bulletType: EntityTypeEnum.Bullet2,
+        hp: 100,
         position: {
           x: 150,
           y: 150
@@ -98,16 +104,36 @@ export default class DataManager extends SingletonManager {
       // 时间流逝
       case InputTypeEnum.TimePast: {
         const { dt } = input
-        const { bullets } = this.state
+        const { bullets, actors } = this.state
 
         // 超过屏幕删除子弹
         for (let i = bullets.length - 1; i >= 0; i--) {
           const bullet = bullets[i]
+
+          // 检测是否打到敌人
+          for (let j = actors.length - 1; j >= 0; j--) {
+            const actor = actors[j]
+            if ((actor.position.x - bullet.position.x) ** 2 + (actor.position.y - bullet.position.y) ** 2 < (ACTOR_RADIUS + BULLET_RADIUS) ** 2) {
+              // 监听子弹爆炸事件
+              actor.hp -= BULLET_DAMAGE
+
+              EventManager.instance.emit(
+                EventEnum.ExplosionBorn,
+                bullet.id,
+                { x: (actor.position.x + bullet.position.x) / 2, y: (actor.position.y + bullet.position.y) / 2 }
+              )
+
+              bullets.splice(i, 1)
+              break
+            }
+          }
+
           if (Math.abs(bullet.position.x) > this.MAP_WIDTH / 2 || Math.abs(bullet.position.y) > this.MAP_HEIGHT / 2) {
             // 监听子弹爆炸事件
             EventManager.instance.emit(EventEnum.ExplosionBorn, bullet.id, { x: bullet.position.x, y: bullet.position.y })
 
             bullets.splice(i, 1)
+            break
           }
         }
 

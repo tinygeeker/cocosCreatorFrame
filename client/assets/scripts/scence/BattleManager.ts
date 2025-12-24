@@ -6,6 +6,7 @@ import { ActorManager } from '../entity/actor/ActorManager';
 import { PrefabPathEnum, texturePathEnum } from '../Enum';
 import { EntityTypeEnum, InputTypeEnum } from '../common';
 import { BulletManager } from '../entity/bullet/BulletManager';
+import { ObjectPoolManager } from '../global/ObjectPoolManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BattleManager')
@@ -103,11 +104,12 @@ export class BattleManager extends Component {
       let { id, type } = data
       let bulletManager = DataManager.instance.bulletMap.get(id)
       if (!bulletManager) {
-        // let prefab = await ResourceManager.instance.loadRes('prefabs/Actor', Prefab) // 防止未加载一直执行
-        let prefab = DataManager.instance.prefabMap.get(type)
-        let actor = instantiate(prefab)
-        actor.setParent(this.stage)
-        bulletManager = actor.addComponent(BulletManager)
+        // let prefab = await ResourceManager.instance.loadRes('prefabs/Bullet', Prefab) // 防止未加载一直执行
+        // let prefab = DataManager.instance.prefabMap.get(type)
+        // let bullet = instantiate(prefab)
+        // bullet.setParent(this.stage)
+        let bullet = ObjectPoolManager.instance.get(type)
+        bulletManager = bullet.getComponent(BulletManager) || bullet.addComponent(BulletManager)
         DataManager.instance.bulletMap.set(data.id, bulletManager)
         bulletManager.init(data)
       } else {

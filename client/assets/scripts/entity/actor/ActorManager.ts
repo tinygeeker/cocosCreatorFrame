@@ -1,4 +1,4 @@
-import { _decorator, Component, director, instantiate, Node } from 'cc';
+import { _decorator, Component, director, instantiate, Node, ProgressBar } from 'cc';
 import DataManager from '../../global/DataManager';
 import { EntityTypeEnum, IActor, InputTypeEnum } from '../../common';
 import { EntityManager } from '../../base/EntityManager';
@@ -12,12 +12,14 @@ export class ActorManager extends EntityManager {
   bulletType: EntityTypeEnum
   private wm: WeaponManager
   private id: number
+  private hp: ProgressBar
 
   protected onLoad(): void {
   }
 
   init(data: IActor) {
     this.id = data.id
+    this.hp = this.node.getComponentInChildren(ProgressBar)
     this.bulletType = data.bulletType
     // 初始化状态机,这里不是很懂，做人物状态机（目的：让人物播放对应的动画）
     this.fsm = this.addComponent(ActorStateMachine)
@@ -37,9 +39,10 @@ export class ActorManager extends EntityManager {
     const { direction, position } = data
     this.node.setPosition(position.x, position.y)
 
-    // 渲染人物朝向
+    // 渲染人物朝向/血条朝向
     if (direction.x !== 0) {
       this.node.setScale(direction.x > 0 ? 1 : -1, 1)
+      this.hp.node.setScale(direction.x > 0 ? 1 : -1, 1)
     }
 
     // 不能直接用正切，否则翻转反方向的时候，计算会错误
@@ -50,6 +53,9 @@ export class ActorManager extends EntityManager {
     const rad = Math.asin(direction.y / side)
     const angle = (rad / Math.PI) * 180
     this.wm.node.setRotationFromEuler(0, 0, angle)
+
+    // 渲染血条
+    this.hp.progress = data.hp / this.hp.totalLength
   }
 
   start() {

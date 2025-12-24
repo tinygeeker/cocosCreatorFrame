@@ -7,6 +7,7 @@ import { EntityStateEnum, EventEnum } from '../../Enum';
 import { WeaponManager } from '../weapon/WeaponManager';
 import EventManager from '../../global/EventManager';
 import { ExplosionManager } from '../explosion/ExplosionManager';
+import { ObjectPoolManager } from '../../global/ObjectPoolManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BulletManager')
@@ -32,18 +33,22 @@ export class BulletManager extends EntityManager {
   handleExplosionBorn(id: number, { x, y }: Vec2) {
     if (id !== this.id) return
 
-    let prefab = DataManager.instance.prefabMap.get(EntityTypeEnum.Explosion)
-    let explosion = instantiate(prefab)
-    explosion.setParent(DataManager.instance.stage)
+    // let prefab = DataManager.instance.prefabMap.get(EntityTypeEnum.Explosion)
+    // let explosion = instantiate(prefab)
+    // explosion.setParent(DataManager.instance.stage)
+    // 使用对象池管理，不用自己实例化
+    let explosion = ObjectPoolManager.instance.get(EntityTypeEnum.Explosion)
 
     // 添加状态机
-    let em = explosion.addComponent(ExplosionManager)
+    let em = explosion.getComponent(ExplosionManager) || explosion.addComponent(ExplosionManager)
     em.init(EntityTypeEnum.Explosion, { x, y })
 
     // 解绑事件
     EventManager.instance.off(EventEnum.ExplosionBorn, this.handleExplosionBorn, this)
     DataManager.instance.bulletMap.delete(this.id)
-    this.node.destroy()
+    // this.node.destroy()
+    // 使用对象池管理
+    ObjectPoolManager.instance.ret(this.node)
   }
 
   render(data: IBullet) {

@@ -10,6 +10,7 @@ export interface IActor {
   type: EntityTypeEnum,
   weaponType: EntityTypeEnum,
   bulletType: EntityTypeEnum,
+  hp: number,
   position: IVec2,
   direction: IVec2
 }
