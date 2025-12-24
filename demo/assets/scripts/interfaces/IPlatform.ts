@@ -1,0 +1,15 @@
+export declare interface IPlatform {
+  init()
+  login(callback)
+  getUserinfo(callback)
+  createUserInfoButton(successCallback)
+  createBannerAd()
+  showBannerAd()
+  hideBannerAd()
+  createRewardedVideoAd()
+  showRewardedVideoAd(callback)
+  hideRewardedVideoAd()
+  createInterstitialAd()
+  showInterstitial()
+  hideInterstitial()
+}
