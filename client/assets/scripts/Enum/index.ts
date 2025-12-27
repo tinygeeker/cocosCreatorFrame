@@ -12,7 +12,9 @@ export enum ParamsNameEnum {
 export enum EventEnum {
   WeaponShoot = 'WeaponShoot',
   ExplosionBorn = 'ExplosionBorn',
-  BulletBorn = 'BulletBorn'
+  BulletBorn = 'BulletBorn',
+  ClientSync = 'ClientSync',
+  ServerSync = 'ServerSync',
 }
 
 
@@ -37,4 +39,9 @@ export enum EntityStateEnum {
   Idle = "Idle",
   Run = "Run",
   Attack = "Attack",
+}
+
+export enum ApiMsgEnum {
+  MsgClientSync = "MsgClientSync",
+  MsgServerSync = "MsgServerSync"
 }

@@ -7,11 +7,11 @@ interface IItem {
 }
 
 export default class EventManager extends SingletonManager {
+    private map: Map<EventEnum, Array<IItem>> = new Map();
+    
     static get instance() {
         return super.GetInstance<EventManager>();
     }
-
-    private map: Map<EventEnum, Array<IItem>> = new Map();
 
     on(event: EventEnum, cb: Function, ctx: unknown) {
         if (this.map.has(event)) {

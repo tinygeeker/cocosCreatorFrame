@@ -3,10 +3,12 @@ import DataManager from '../global/DataManager';
 import { JoyStickManager } from '../game/JoyStickManager';
 import { ResourceManager } from '../global/ResoureManager';
 import { ActorManager } from '../entity/actor/ActorManager';
-import { PrefabPathEnum, texturePathEnum } from '../Enum';
-import { EntityTypeEnum, InputTypeEnum } from '../common';
+import { ApiMsgEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../Enum';
+import { EntityTypeEnum, IClientInput, InputTypeEnum } from '../common';
 import { BulletManager } from '../entity/bullet/BulletManager';
 import { ObjectPoolManager } from '../global/ObjectPoolManager';
+import { NetworkManager } from '../global/NetworkManager';
+import EventManager from '../global/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BattleManager')
@@ -16,29 +18,54 @@ export class BattleManager extends Component {
   private _shouldUpdate: boolean = false // 是否异步资源加载完成
 
   protected onLoad(): void {
-    // 获取场景相关结点
-    DataManager.instance.stage = this.stage = this.node.getChildByName('GameLayout')
-    this.ui = this.node.getChildByName('GameControl')
 
-    // 销毁场景下所有节点，改成动态添加，方便控制
-    this.stage.destroyAllChildren()
-
-    // 获取摇杆管理器
-    DataManager.instance.jm = this.ui.getComponentInChildren(JoyStickManager)
   }
 
   protected onDestroy(): void {
   }
 
   async start() {
-    // 异步加载资源，加载完成后继续执行
-    await this.loadRes()
+    this.clearGame()
+    // 测试网络链接
+    // await this.connectServer()
+    // await this.loadRes()
+    await Promise.all([this.connectServer(), this.loadRes()])
+    this.initGame()
 
-    // 初始化地图
+    // // 初始化地图
+    // this.initMap()
+
+    // // 是否加载完成
+    // this._shouldUpdate = true
+  }
+
+  initGame() {
+    // 获取摇杆管理器
+    DataManager.instance.jm = this.ui.getComponentInChildren(JoyStickManager)
     this.initMap()
-
-    // 是否加载完成
     this._shouldUpdate = true
+
+    // 监听帧同步事件
+    EventManager.instance.on(EventEnum.ClientSync, this.handleClientSync, this)
+    NetworkManager.instance.listenMsg(ApiMsgEnum.MsgServerSync, this.handleServerSync, this)
+  }
+
+  clearGame() {
+    EventManager.instance.off(EventEnum.ClientSync, this.handleClientSync, this)
+    NetworkManager.instance.unlistenMsg(ApiMsgEnum.MsgServerSync, this.handleServerSync, this)
+    // 获取场景相关结点
+    DataManager.instance.stage = this.stage = this.node.getChildByName('GameLayout')
+    this.ui = this.node.getChildByName('GameControl')
+
+    // 销毁场景下所有节点，改成动态添加，方便控制
+    this.stage.destroyAllChildren()
+  }
+
+  async connectServer() {
+    if (!await NetworkManager.instance.connect().catch(() => false)) {
+      await new Promise((rs) => setTimeout(rs, 1000))
+      await this.connectServer()
+    }
   }
 
   async loadRes() {
@@ -132,6 +159,21 @@ export class BattleManager extends Component {
       const { id } = data
       let actorManager = DataManager.instance.actorMap.get(id)
       actorManager.tick(dt)
+    }
+  }
+
+
+  handleClientSync(input: IClientInput) {
+    const msg = {
+      input,
+      frameId: DataManager.instance.frameId++
+    }
+    NetworkManager.instance.sendMsg(ApiMsgEnum.MsgClientSync, msg)
+  }
+
+  handleServerSync({ inputs }: any) {
+    for (const input of inputs) {
+      DataManager.instance.applyInput(input)
     }
   }
 }

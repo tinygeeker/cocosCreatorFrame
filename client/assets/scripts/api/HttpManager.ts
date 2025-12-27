@@ -15,7 +15,7 @@ interface responseType {
 
 console.log("CONFIG.API_BASE_URL", CONFIG.API_BASE_URL)
 
-class NetworkManager {
+class HttpManager {
   baseUrl = CONFIG.API_BASE_URL
   requestInterceptors = []
   responseInterceptors = []
@@ -82,9 +82,9 @@ class NetworkManager {
 }
 
 // 使用示例
-const networkFetch = new NetworkManager();
+const networkFetch = new HttpManager();
 // 不带加载动画请求
-const noLoadingNetworkFetch = new NetworkManager();
+const noLoadingNetworkFetch = new HttpManager();
 
 // 添加请求拦截器，在请求头中添加 token
 networkFetch.addRequestInterceptor((options) => {

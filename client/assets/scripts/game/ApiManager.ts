@@ -1,6 +1,6 @@
 import { _decorator, Component, Node, sys } from 'cc';
 import { CommonUIManager } from '../CommonUIManager';
-import { post, get } from '../api/NetworkManager';
+import { post, get } from '../api/HttpManager';
 import { WechatManager } from '../api/WechatManager';
 import { DebugManager } from '../api/DebugManager';
 const { ccclass, property } = _decorator;

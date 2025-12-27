@@ -15,7 +15,7 @@ class MessageRouter
 
         switch ($data['cmd']) {
             case 'auth':
-                AuthService::wsAuth($clientId, $data['data']);
+                AuthService::login($clientId, $data['data']);
                 break;
             case 'hall.chat':
                 ChatService::hallChat($clientId, $data['data']);

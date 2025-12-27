@@ -23,6 +23,7 @@ export default class DataManager extends SingletonManager {
   }
 
   myPlayerId = 1 // 当前玩家的Id,每次登录后会赋值
+  frameId = 1
 
   stage: Node // 游戏场景节点
   jm: JoyStickManager // 摇杆管理器

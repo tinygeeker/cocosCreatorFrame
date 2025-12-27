@@ -22,7 +22,7 @@ return [
     'worker_class' => '', // 自定义Workerman服务类名 支持数组定义多个服务
 
     // 支持workerman的所有配置参数
-    'name' => 'cocos-game',
+    'name' => 'game',
     'count' => 4,
     'daemonize' => false,
     'pidFile' => '',

@@ -3,8 +3,9 @@ import DataManager from '../../global/DataManager';
 import { EntityTypeEnum, IActor, InputTypeEnum } from '../../common';
 import { EntityManager } from '../../base/EntityManager';
 import { ActorStateMachine } from './ActorStateMachine';
-import { EntityStateEnum } from '../../Enum';
+import { EntityStateEnum, EventEnum } from '../../Enum';
 import { WeaponManager } from '../weapon/WeaponManager';
+import EventManager from '../../global/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('ActorManager')
@@ -69,12 +70,20 @@ export class ActorManager extends EntityManager {
     if (DataManager.instance.jm.input.length()) {
       const { x, y } = DataManager.instance.jm.input
 
-      DataManager.instance.applyInput({
+      // 实现帧同步
+      EventManager.instance.emit(EventEnum.ClientSync, {
         id: 1,
         type: InputTypeEnum.ActorMove,
         direction: { x, y },
         deltaTime
       })
+
+      // DataManager.instance.applyInput({
+      //   id: 1,
+      //   type: InputTypeEnum.ActorMove,
+      //   direction: { x, y },
+      //   deltaTime
+      // })
 
       this.state = EntityStateEnum.Run // 切换动画
       // console.log(DataManager.instance.state.actors[0])

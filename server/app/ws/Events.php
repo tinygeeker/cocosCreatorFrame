@@ -14,39 +14,38 @@ class Events
      */
     public static function onWorkerStart($worker)
     {
-//        if ($worker->id !== 0) {
-//            return;
-//        }
-//        // 20 帧 / 秒 = 50ms
-//        Timer::add(0.05, function () {
-//            FrameService::tick();
-//        });
+        echo "[onWorkerStart] 成功$worker->id\n";
+        if ($worker->id !== 0) return;
+
+        // 20帧 / 秒
+        Timer::add(0.05, function () {
+            FrameService::tick();
+        });
     }
 
     public static function onWorkerReload()
     {
+        echo "[onWorkerReload] 成功\n";
     }
 
-    public static function onConnect($connection)
+    public static function onConnect($clientId)
     {
-        $connection->clientId = uniqid();
+        echo "[onConnect/$clientId] 成功\n";
     }
 
-    public static function onMessage($connection, $message)
+    public static function onMessage($clientId, $message)
     {
-        var_dump($connection);
-//        MessageRouter::dispatch($clientId, $message);
-
-        $connection->send('小狗收到' . $connection->clientId);
+        echo "[onMessage] 成功\n";
+        MessageRouter::dispatch($clientId, $message);
     }
 
     public static function onClose($clientId)
     {
-//        ReconnectService::offline($clientId);
+        echo "[onClose/$clientId] 成功\n";
     }
 
     public static function onError($clientId, $code, $msg)
     {
-        echo "error [$code] $clientId $msg\n";
+        echo "[onError/$clientId] $code $msg\n";
     }
 }
