@@ -3,23 +3,27 @@
 namespace app\ws;
 
 use GatewayWorker\Lib\Gateway;
+use think\Console;
 use Workerman\Lib\Timer;
 use app\service\FrameService;
 
 class Events
 {
+    protected static $connections = [];
+    protected static $inputs = [];
+
     /**
      * BusinessWorker 启动时触发
      * 每个 BusinessWorker 进程只会执行一次
      */
     public static function onWorkerStart($worker)
     {
-        echo "[onWorkerStart] 成功$worker->id\n";
+        echo "[onWorkerStart] 成功\n";
         if ($worker->id !== 0) return;
 
         // 20帧 / 秒
         Timer::add(0.05, function () {
-            FrameService::tick();
+            self::tick();
         });
     }
 
@@ -28,24 +32,51 @@ class Events
         echo "[onWorkerReload] 成功\n";
     }
 
-    public static function onConnect($clientId)
+    public static function onConnect($connection)
     {
-        echo "[onConnect/$clientId] 成功\n";
+        $id = spl_object_id($connection);
+        echo "[onConnect/$id] 成功\n";
+        self::$connections[$id] = $connection;
     }
 
-    public static function onMessage($clientId, $message)
+    public static function onMessage($connection, $message)
     {
         echo "[onMessage] 成功\n";
-        MessageRouter::dispatch($clientId, $message);
+        $data = json_decode($message, true);
+        $name = $data['name'];
+        $frameId = $data['data']['frameId'];
+        $input = $data['data']['input'];
+        self::$inputs[] = $input;
     }
 
-    public static function onClose($clientId)
+    public static function onClose($connection)
     {
-        echo "[onClose/$clientId] 成功\n";
+        echo "[onClose] 成功\n";
+        unset(self::$connections[spl_object_id($connection)]);
     }
 
-    public static function onError($clientId, $code, $msg)
+    public static function onError($connection, $code, $msg)
     {
-        echo "[onError/$clientId] $code $msg\n";
+        echo "[onError] $code $msg\n";
+    }
+
+    public static function tick()
+    {
+        if (empty(self::$inputs)) {
+            return;
+        }
+
+        $payload = json_encode([
+            'name'  => 'MsgServerSync',
+            'data' => [
+                'inputs' => self::$inputs
+            ]
+        ]);
+
+        foreach (self::$connections as $conn) {
+            $conn->send($payload);
+        }
+
+        self::$inputs = [];
     }
 }
