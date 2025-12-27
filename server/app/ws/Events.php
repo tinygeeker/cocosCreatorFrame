@@ -46,7 +46,12 @@ class Events
         $name = $data['name'];
         $frameId = $data['data']['frameId'];
         $input = $data['data']['input'];
-        self::$inputs[] = $input;
+        switch ($name) {
+            case 'MsgClientSync':
+                self::$inputs[] = $input;
+                break;
+        }
+
     }
 
     public static function onClose($connection)
@@ -67,7 +72,7 @@ class Events
         }
 
         $payload = json_encode([
-            'name'  => 'MsgServerSync',
+            'name' => 'MsgServerSync',
             'data' => [
                 'inputs' => self::$inputs
             ]
