@@ -43,5 +43,6 @@ export enum EntityStateEnum {
 
 export enum ApiMsgEnum {
   MsgClientSync = "MsgClientSync",
-  MsgServerSync = "MsgServerSync"
+  MsgServerSync = "MsgServerSync",
+  ApiPlayerJoin = "ApiPlayerJoin"
 }

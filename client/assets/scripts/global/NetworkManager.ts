@@ -6,9 +6,16 @@ interface IItem {
     ctx: unknown;
 }
 
+interface ICallApiRet {
+    success: boolean;
+    res?: any;
+    error?: Error
+}
+
 
 export class NetworkManager extends SingletonManager {
     private _ws: WebSocket
+    isConnect: boolean = false
     private map: Map<string, Array<IItem>> = new Map();
 
     static get instance() {
@@ -17,14 +24,22 @@ export class NetworkManager extends SingletonManager {
 
     connect() {
         return new Promise((resolve, reject) => {
+            if (this.isConnect) {
+                resolve(true)
+                return
+            }
+
             this._ws = new WebSocket('ws://127.0.0.1:2345')
             this._ws.onopen = () => {
+                this.isConnect = true
                 resolve(true)
             }
             this._ws.onclose = () => {
+                this.isConnect = false
                 reject(false)
             }
             this._ws.onerror = (e) => {
+                this.isConnect = false
                 console.error('[websocket/onerror]', e)
                 reject(false)
             }
@@ -42,6 +57,33 @@ export class NetworkManager extends SingletonManager {
                 } catch (e) {
                     console.log('[websocket/onmessage失败]', e)
                 }
+            }
+        })
+    }
+
+    callApi(name: string, data): Promise<ICallApiRet> {
+        return new Promise((resolve) => {
+            try {
+                const timer = setTimeout(() => {
+                    resolve({
+                        success: false,
+                        error: new Error('time out!')
+                    })
+                    this.unlistenMsg(name, cb, null)
+                }, 5000);
+                const cb = (res) => {
+                    resolve(res)
+                    clearTimeout(timer)
+                    this.unlistenMsg(name, cb, null)
+                }
+
+                this.listenMsg(name, cb, null)
+                this.sendMsg(name, data)
+            } catch (error) {
+                resolve({
+                    success: false,
+                    error
+                })
             }
         })
     }

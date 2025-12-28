@@ -5,12 +5,11 @@ namespace app\ws;
 use GatewayWorker\Lib\Gateway;
 use think\Console;
 use Workerman\Lib\Timer;
-use app\service\FrameService;
+use app\wsservice\FrameService;
 
 class Events
 {
-    protected static $connections = [];
-    protected static $inputs = [];
+    private static $connections = [];
 
     /**
      * BusinessWorker 启动时触发
@@ -23,7 +22,7 @@ class Events
 
         // 20帧 / 秒
         Timer::add(0.05, function () {
-            self::tick();
+            FrameService::tick();
         });
     }
 
@@ -34,24 +33,14 @@ class Events
 
     public static function onConnect($connection)
     {
-        $id = spl_object_id($connection);
-        echo "[onConnect/$id] 成功\n";
-        self::$connections[$id] = $connection;
+        echo "[onConnect] 成功\n";
+        self::$connections[spl_object_id($connection)] = $connection;
     }
 
     public static function onMessage($connection, $message)
     {
         echo "[onMessage] 成功\n";
-        $data = json_decode($message, true);
-        $name = $data['name'];
-        $frameId = $data['data']['frameId'];
-        $input = $data['data']['input'];
-        switch ($name) {
-            case 'MsgClientSync':
-                self::$inputs[] = $input;
-                break;
-        }
-
+        WsMessageRouter::dispatch($connection, $message);
     }
 
     public static function onClose($connection)
@@ -63,25 +52,5 @@ class Events
     public static function onError($connection, $code, $msg)
     {
         echo "[onError] $code $msg\n";
-    }
-
-    public static function tick()
-    {
-        if (empty(self::$inputs)) {
-            return;
-        }
-
-        $payload = json_encode([
-            'name' => 'MsgServerSync',
-            'data' => [
-                'inputs' => self::$inputs
-            ]
-        ]);
-
-        foreach (self::$connections as $conn) {
-            $conn->send($payload);
-        }
-
-        self::$inputs = [];
     }
 }
