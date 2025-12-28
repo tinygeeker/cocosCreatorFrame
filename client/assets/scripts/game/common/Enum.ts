@@ -13,6 +13,26 @@ export enum EntityTypeEnum {
 	Explosion = 'Explosion'
 }
 
+export enum texturePathEnum {
+
+}
+
+export enum PrefabPathEnum {
+	
+}
+
+export enum IClientInput {
+	
+}
+
+export enum ApiMsgEnum {
+	ApiPlayerJoin = 'ApiPlayerJoin',
+}
+
+export enum EventEnum {
+	WeaponShoot,
+}
+
 export enum GameStatus {
 	NOSTART,
 	SNATCHLABDLORD,

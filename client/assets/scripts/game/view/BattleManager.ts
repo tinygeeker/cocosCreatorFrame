@@ -1,14 +1,14 @@
 import { _decorator, Component, Input, input, instantiate, Node, Prefab, SpriteFrame } from 'cc';
-import DataManager from '../global/DataManager';
-import { JoyStickManager } from '../game/JoyStickManager';
-import { ResourceManager } from '../global/ResoureManager';
-import { ActorManager } from '../entity/actor/ActorManager';
-import { ApiMsgEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../Enum';
-import { EntityTypeEnum, IClientInput, InputTypeEnum } from '../common';
-import { BulletManager } from '../entity/bullet/BulletManager';
-import { ObjectPoolManager } from '../global/ObjectPoolManager';
-import { NetworkManager } from '../global/NetworkManager';
-import EventManager from '../global/EventManager';
+import DataManager from '../../core/utils/DataManager';
+import { JoyStickManager } from '../controller/JoyStickManager';
+import { ResourceManager } from '../../core/utils/ResoureManager';
+import { ActorManager } from '../../entity/actor/ActorManager';
+import { ApiMsgEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../../game/common/Enum';
+import { EntityTypeEnum, IClientInput, InputTypeEnum } from '../../game/common/Enum';
+import { BulletManager } from '../../entity/bullet/BulletManager';
+import { ObjectPoolManager } from '../../core/utils/ObjectPoolManager';
+import { NetworkManager } from '../../core/utils/NetworkManager';
+import EventManager from '../../core/utils/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BattleManager')

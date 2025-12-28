@@ -1,5 +1,5 @@
 import { _decorator, Component, Node } from 'cc';
-import { CommonUIManager } from '../CommonUIManager';
+import { CommonUIManager } from '../core/ui/CommonUIManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('SettingManager')

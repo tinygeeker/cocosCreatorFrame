@@ -1,7 +1,7 @@
 import { director, sys } from "cc";
-import { CONFIG } from "../config/Index";
-import { CommonUIManager } from "../CommonUIManager";
-import { stringifyParams } from "../../utils/Tools";
+import { CONFIG } from "../../config/Index";
+import { CommonUIManager } from "../ui/CommonUIManager";
+import { stringifyParams } from "../utils/Tools";
 
 export let loadingCount = 0;
 

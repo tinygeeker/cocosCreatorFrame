@@ -1,6 +1,6 @@
 import { _decorator, Component, Node } from 'cc';
-import EventManager from '../global/EventManager';
-import { EventEnum } from '../Enum';
+import EventManager from '../../core/utils/EventManager';
+import { EventEnum } from '../common/Enum';
 const { ccclass, property } = _decorator;
 
 @ccclass('ShootManager')

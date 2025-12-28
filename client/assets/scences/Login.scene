@@ -1,7 +1,7 @@
 [
   {
     "__type__": "cc.SceneAsset",
-    "_name": "LoginScence",
+    "_name": "Login",
     "_objFlags": 0,
     "__editorExtras__": {},
     "_native": "",

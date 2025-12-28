@@ -1,13 +1,13 @@
 import { PlatformAdapter } from "./PlatformAdapter";
-import { WechatAuth } from "../sdk/wechat/WechatAuth";
+import { WechatSDK } from "../sdk/WechatSDK";
 
 export class WechatAdapter implements PlatformAdapter {
     async login() {
-        return WechatAuth.login();
+        return WechatSDK.login();
     }
 
     async getUserInfo() {
-        return WechatAuth.getUserInfo();
+        return WechatSDK.getUserInfo();
     }
 }
 

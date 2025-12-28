@@ -1,6 +1,4 @@
-declare const wx: any;
-
-export class WechatAuth {
+export class WechatSDK {
     static login(): Promise<any> {
         return new Promise((resolve, reject) => {
             wx.login({

@@ -1,7 +1,7 @@
 import { _decorator, resources, Asset, Node, instantiate } from "cc";
 import SingletonManager from "../base/SingletonManager";
 import DataManager from "./DataManager";
-import { EntityTypeEnum } from "../common";
+import { EntityTypeEnum } from "../../game/common/Enum";
 
 export class ObjectPoolManager extends SingletonManager {
     private objectPool: Node
