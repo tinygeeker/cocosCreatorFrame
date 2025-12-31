@@ -40,11 +40,11 @@ export class NetworkManager extends SingletonManager {
             }
             this._ws.onerror = (e) => {
                 this.isConnect = false
-                console.error('[websocket/onerror]', e)
+                console.error('[ws/onerror]', e)
                 reject(false)
             }
             this._ws.onmessage = (e) => {
-                console.log('[websocket/onmessage成功]', e.data)
+                console.log('[ws/onmessage成功]', e.data)
                 try {
                     let { cmd, data } = JSON.parse(e.data)
                     if (this.map.has(cmd)) {
@@ -55,7 +55,7 @@ export class NetworkManager extends SingletonManager {
                         });
                     }
                 } catch (e) {
-                    console.log('[websocket/onmessage失败]', e)
+                    console.log('[ws/onmessage失败]', e)
                 }
             }
         })
