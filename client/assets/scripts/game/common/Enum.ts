@@ -44,6 +44,8 @@ export enum IClientInput {
 
 export enum ApiMsgEnum {
   ApiPlayerJoin = 'ApiPlayerJoin',
+  MsgClientSync = 'MsgClientSync',
+  MsgServerSync = 'ApiPlayerJoin'
 }
 
 export enum EventEnum {

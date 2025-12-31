@@ -1,0 +1,9 @@
+export const GameConfig = {
+    ACTOR_SPEED: 100,
+    BULLET_SPEED: 600,
+    MAP_WIDTH: 1334,
+    MAP_HEIGHT: 750,
+    ACTOR_RADIUS: 50,
+    BULLET_RADIUS: 10,
+    BULLET_DAMAGE: 5
+};

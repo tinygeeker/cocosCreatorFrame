@@ -1,5 +1,5 @@
 import { director, sys } from "cc";
-import { CONFIG } from "../../config/Index";
+import { NetworkConfig } from "../../config/NetworkConfig";
 import { CommonUIManager } from "../ui/CommonUIManager";
 import { stringifyParams } from "../utils/Tools";
 
@@ -13,10 +13,10 @@ interface responseType {
   token?: string
 }
 
-console.log("CONFIG.API_BASE_URL", CONFIG.API_BASE_URL)
+console.log("CONFIG.API_BASE_URL", NetworkConfig.API_BASE_URL)
 
 class HttpManager {
-  baseUrl = CONFIG.API_BASE_URL
+  baseUrl = NetworkConfig.API_BASE_URL
   requestInterceptors = []
   responseInterceptors = []
   constructor() {

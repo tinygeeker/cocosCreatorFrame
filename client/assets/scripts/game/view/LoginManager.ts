@@ -1,7 +1,7 @@
 import { _decorator, Component, director, EditBox, Node } from 'cc';
-import { NetworkManager } from '../../core/utils/NetworkManager';
+import { NetworkManager } from '../../core/net/NetworkManager';
 import { ApiMsgEnum } from '../../game/common/Enum';
-import DataManager from '../../core/utils/DataManager';
+import DataManager from '../../core/base/DataManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('LoginManager')

@@ -1,7 +1,7 @@
 import { director, Scene, find, sys } from "cc";
-import { eventTarget } from "../base/EventListening";
+import { eventTarget } from "../utils/EventListening";
 import { CommonUIManager } from "../ui/CommonUIManager";
-import { CONFIG } from "../../config/Index";
+import { NetworkConfig } from "../../config/NetworkConfig";
 
 // websocket send 消息类型
 interface Message {
@@ -32,7 +32,7 @@ export class WebsocketManager {
    * @param url websocket 地址
    * @returns 
    */
-  public static instance({ baseUrl = CONFIG.SOCKET_BASE_URL, url = "" } = {}): Promise<WebsocketManager> {
+  public static instance({ baseUrl = NetworkConfig.SOCKET_BASE_URL, url = "" } = {}): Promise<WebsocketManager> {
     console.log(baseUrl + url, this._instance);
     // 这里为什么写成异步的方法，因为我想获取到socket连接之后向直接发送send请求，但是socket创建连接之后，不是直接就能发送的，需要连接成功后才可以，所以写成了异步的，当等待异步连接完成，再去发送请求
     return new Promise((resolve, reject) => {
