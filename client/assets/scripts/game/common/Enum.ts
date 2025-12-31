@@ -10,9 +10,9 @@ export enum ParamsNameEnum {
 }
 
 export enum InputTypeEnum {
-  ActorMove = 'ActorMove',
-  WeaponShoot = 'WeaponShoot',
-  TimePast = 'TimePast'
+  ActorMove = 'actor.move',
+  WeaponShoot = 'weapon.shoot',
+  TimePast = 'time.past'
 }
 
 export enum EntityTypeEnum {
@@ -63,7 +63,7 @@ export enum EventEnum {
   WeaponShoot = 'WeaponShoot',
   ExplosionBorn = 'ExplosionBorn',
   BulletBorn = 'BulletBorn',
-  ClientInput = 'client.input'
+  ClientInput = 'clientInput'
 }
 
 export enum GameStatus {

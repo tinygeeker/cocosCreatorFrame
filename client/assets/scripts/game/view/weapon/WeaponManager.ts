@@ -2,7 +2,7 @@ import { _decorator, Component, director, instantiate, Node, UITransform, Vec2, 
 import { EntityManager } from '../../../core/base/EntityManager';
 import { WeaponStateMachine } from './WeaponStateMachine';
 import { IActor } from '../../common/Type';
-import { EntityStateEnum, EntityTypeEnum, InputTypeEnum, EventEnum } from '../../common/Enum';
+import { EntityStateEnum, InputTypeEnum, EventEnum } from '../../common/Enum';
 import DataManager from '../../../core/base/DataManager';
 import EventManager from '../../../core/base/EventManager';
 const { ccclass, property } = _decorator;
