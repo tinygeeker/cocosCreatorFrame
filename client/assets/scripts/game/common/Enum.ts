@@ -53,6 +53,7 @@ export enum EventEnum {
   BulletBorn,
   ExplosionBorn,
   ClientSync,
+  ClientInput
 }
 
 export enum GameStatus {

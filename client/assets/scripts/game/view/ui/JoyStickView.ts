@@ -1,8 +1,8 @@
 import { _decorator, Component, EventTouch, Input, input, Node, UITransform, Vec2 } from 'cc';
 const { ccclass, property } = _decorator;
 
-@ccclass('JoyStickManager')
-export class JoyStickManager extends Component {
+@ccclass('JoyStickView')
+export class JoyStickView extends Component {
 
     input: Vec2 = Vec2.ZERO
 

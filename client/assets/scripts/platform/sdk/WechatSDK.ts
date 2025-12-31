@@ -1,10 +1,10 @@
-import { WechatConfig } from "../../config/WechatConfig";
+import { wechatConfig } from "../../config/WechatConfig";
 
 export class WechatSDK {
     static login(): Promise<any> {
         return new Promise((resolve, reject) => {
             wx.login({
-                timeout: WechatConfig.TIMEOUT,
+                timeout: wechatConfig.timeout,
                 success(res: any) {
                     resolve(res);
                 },
@@ -98,7 +98,7 @@ export class WechatSDK {
     static scanCode(): Promise<any> {
         return new Promise((resolve, reject) => {
             wx.scanCode({
-                onlyFromCamera: WechatConfig.ONLY_FROM_CAMERA,
+                onlyFromCamera: wechatConfig.onlyFromCamera,
                 success(res) {
                     resolve(res)
                 },
@@ -112,7 +112,7 @@ export class WechatSDK {
     static vibrateShort(): Promise<any> {
         return new Promise((resolve, reject) => {
             wx.vibrateShort({
-                type: WechatConfig.VIBRATE_TYPE,
+                type: wechatConfig.vibrateType,
                 success: (res) => {
                     resolve(res)
                 },
@@ -161,7 +161,7 @@ export class WechatSDK {
     static createRewardedVideoAd(): Promise<any> {
         return new Promise((resolve, reject) => {
             let ad = wx.createRewardedVideoAd({
-                adUnitId: WechatConfig.REWARDED_VIDEO_ID
+                adUnitId: wechatConfig.rewardedVideoID
             })
 
             ad.onLoad(() => {

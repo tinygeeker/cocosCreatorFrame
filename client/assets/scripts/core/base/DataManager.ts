@@ -1,7 +1,7 @@
 import { Prefab, SpriteFrame, Node } from "cc";
 import SingletonManager from "./SingletonManager";
 import { ActorManager } from "../../game/view/actor/ActorManager";
-import { JoyStickManager } from "../../game/controller/JoyStickManager";
+import { JoyStickView } from "../../game/view/ui/JoyStickView";
 import { BulletManager } from "../../game/view/bullet/BulletManager";
 import EventManager from "./EventManager";
 import { EventEnum, InputTypeEnum, EntityTypeEnum } from "../../game/common/Enum";
@@ -26,7 +26,7 @@ export default class DataManager extends SingletonManager {
   frameId = 1
 
   stage: Node // 游戏场景节点
-  jm: JoyStickManager // 摇杆管理器
+  jm: JoyStickView // 摇杆管理器
   actorMap: Map<number, ActorManager> = new Map()
   bulletMap: Map<number, BulletManager> = new Map()
   prefabMap: Map<string, Prefab> = new Map()

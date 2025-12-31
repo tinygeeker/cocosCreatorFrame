@@ -1,5 +1,5 @@
 import { _decorator, Component, Input, input, instantiate, Node, Prefab, SpriteFrame } from 'cc';
-import { JoyStickManager } from '../controller/JoyStickManager';
+import { JoyStickView } from './ui/JoyStickView';
 import { ResourceManager } from '../../core/base/ResoureManager';
 import { ActorManager } from './actor/ActorManager';
 import { BulletManager } from './bullet/BulletManager';
@@ -40,7 +40,7 @@ export class BattleManager extends Component {
 
   initGame() {
     // 获取摇杆管理器
-    DataManager.instance.jm = this.ui.getComponentInChildren(JoyStickManager)
+    DataManager.instance.jm = this.ui.getComponentInChildren(JoyStickView)
     this.initMap()
     this._shouldUpdate = true
 
