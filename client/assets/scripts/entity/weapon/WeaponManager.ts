@@ -1,10 +1,10 @@
 import { _decorator, Component, director, instantiate, Node, UITransform, Vec2, Vec3 } from 'cc';
-import DataManager from '../../global/DataManager';
-import { EntityTypeEnum, IActor, InputTypeEnum } from '../../common';
-import { EntityManager } from '../../base/EntityManager';
+import DataManager from '../../core/utils/DataManager';
+import { EntityManager } from '../../core/utils/EntityManager';
 import { WeaponStateMachine } from './WeaponStateMachine';
-import { EntityStateEnum, EventEnum } from '../../Enum';
-import EventManager from '../../global/EventManager';
+import { IActor } from '../../game/common/Interface';
+import { EntityStateEnum, EntityTypeEnum, InputTypeEnum, EventEnum } from '../../game/common/Enum';
+import EventManager from '../../core/utils/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('WeaponManager')
@@ -44,7 +44,7 @@ export class WeaponManager extends EntityManager {
 
 
   weaponShoot() {
-    if(this.owner !== DataManager.instance.myPlayerId) return // 只能操作自己射击
+    if (this.owner !== DataManager.instance.myPlayerId) return // 只能操作自己射击
 
     const pointWorldPos = this.point.getWorldPosition()
     const pointStagePos = DataManager.instance.stage.getComponent(UITransform).convertToNodeSpaceAR(pointWorldPos)

@@ -1,13 +1,13 @@
 import { _decorator, Component, director, instantiate, Node, Vec2 } from 'cc';
-import DataManager from '../../global/DataManager';
-import { EntityTypeEnum, IActor, IBullet, InputTypeEnum } from '../../common';
-import { EntityManager } from '../../base/EntityManager';
+import DataManager from '../../core/utils/DataManager';
+import { EntityManager } from '../../core/utils/EntityManager';
 import { BulletStateMachine } from './BulletStateMachine';
-import { EntityStateEnum, EventEnum } from '../../Enum';
+import { EntityStateEnum, EntityTypeEnum, InputTypeEnum, EventEnum } from '../../game/common/Enum';
+import { IActor, IBullet } from '../../game/common/Interface';
 import { WeaponManager } from '../weapon/WeaponManager';
-import EventManager from '../../global/EventManager';
+import EventManager from '../../core/utils/EventManager';
 import { ExplosionManager } from '../explosion/ExplosionManager';
-import { ObjectPoolManager } from '../../global/ObjectPoolManager';
+import { ObjectPoolManager } from '../../core/utils/ObjectPoolManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('BulletManager')

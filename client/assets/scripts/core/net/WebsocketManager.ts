@@ -1,7 +1,7 @@
 import { director, Scene, find, sys } from "cc";
-import { eventTarget } from "../../utils/EventListening";
-import { CommonUIManager } from "../CommonUIManager";
-import { CONFIG } from "../config/Index";
+import { eventTarget } from "../base/EventListening";
+import { CommonUIManager } from "../ui/CommonUIManager";
+import { CONFIG } from "../../config/Index";
 
 // websocket send 消息类型
 interface Message {

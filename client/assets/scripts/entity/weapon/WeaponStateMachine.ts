@@ -1,8 +1,7 @@
 import { _decorator, Animation, AnimationClip } from "cc";
-import State from "../../base/State";
-import StateMachine, { getInitParamsTrigger } from "../../base/StateMachine";
-import { EntityTypeEnum } from "../../common";
-import { EntityStateEnum, ParamsNameEnum } from "../../Enum";
+import State from "../../core/utils/State";
+import StateMachine, { getInitParamsTrigger } from "../../core/utils/StateMachine";
+import { EntityStateEnum, EntityTypeEnum, ParamsNameEnum } from "../../game/common/Enum";
 import { WeaponManager } from "./WeaponManager";
 const { ccclass } = _decorator;
 

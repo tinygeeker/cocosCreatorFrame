@@ -1,11 +1,11 @@
 import { _decorator, Component, director, instantiate, Node, ProgressBar } from 'cc';
-import DataManager from '../../global/DataManager';
-import { EntityTypeEnum, IActor, InputTypeEnum } from '../../common';
-import { EntityManager } from '../../base/EntityManager';
+import DataManager from '../../core/utils/DataManager';
+import { EntityTypeEnum, InputTypeEnum, EntityStateEnum, EventEnum } from '../../game/common/Enum';
+import { IActor } from '../../game/common/Interface';
+import { EntityManager } from '../../core/utils/EntityManager';
 import { ActorStateMachine } from './ActorStateMachine';
-import { EntityStateEnum, EventEnum } from '../../Enum';
 import { WeaponManager } from '../weapon/WeaponManager';
-import EventManager from '../../global/EventManager';
+import EventManager from '../../core/utils/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('ActorManager')

@@ -1,6 +1,5 @@
 import { _decorator, Animation, Component } from "cc";
-import { EntityTypeEnum } from "../common";
-import { FsmParamTypeEnum } from "../Enum";
+import { FsmParamTypeEnum, EntityTypeEnum } from "../../game/common/Enum";
 const { ccclass } = _decorator;
 import State from "./State";
 import SubStateMachine from "./SubStateMachine";

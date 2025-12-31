@@ -1,5 +1,5 @@
 import SingletonManager from '../base/SingletonManager';
-import { EventEnum } from '../Enum';
+import { EventEnum } from '../../game/common/Enum';
 
 interface IItem {
     cb: Function;

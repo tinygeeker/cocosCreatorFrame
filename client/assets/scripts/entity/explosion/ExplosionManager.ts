@@ -1,10 +1,10 @@
 import { _decorator, Component, director, instantiate, IVec2, Node, Vec2 } from 'cc';
-import DataManager from '../../global/DataManager';
-import { EntityTypeEnum, IActor, IBullet, InputTypeEnum } from '../../common';
-import { EntityManager } from '../../base/EntityManager';
+import DataManager from '../../core/utils/DataManager';
+import { IActor, IBullet } from '../../game/common/Interface';
+import { EntityManager } from '../../core/utils/EntityManager';
 import { ExplosionStateMachine } from './ExplosionStateMachine';
-import { EntityStateEnum, EventEnum } from '../../Enum';
-import EventManager from '../../global/EventManager';
+import { EntityStateEnum, EventEnum, EntityTypeEnum, InputTypeEnum } from '../../game/common/Enum';
+import EventManager from '../../core/utils/EventManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('ExplosionManager')
