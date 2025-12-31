@@ -7,17 +7,16 @@ import { ObjectPoolManager } from '../../core/base/ObjectPoolManager';
 import { NetworkManager } from '../../core/net/NetworkManager';
 import EventManager from '../../core/base/EventManager';
 import DataManager from '../../core/base/DataManager';
-import { EntityTypeEnum, IClientInput, InputTypeEnum, ApiMsgEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../../game/common/Enum';
+import { EntityTypeEnum, IClientInput, InputTypeEnum, ApiMsgEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../common/Enum';
 const { ccclass, property } = _decorator;
 
-@ccclass('BattleManager')
-export class BattleManager extends Component {
+@ccclass('BattleView')
+export class BattleView extends Component {
   private stage: Node
   private ui: Node
   private _shouldUpdate: boolean = false // 是否异步资源加载完成
 
   protected onLoad(): void {
-
   }
 
   protected onDestroy(): void {
@@ -52,6 +51,7 @@ export class BattleManager extends Component {
   clearGame() {
     EventManager.instance.off(EventEnum.ClientSync, this.handleClientSync, this)
     NetworkManager.instance.unlistenMsg(ApiMsgEnum.MsgServerSync, this.handleServerSync, this)
+
     // 获取场景相关结点
     DataManager.instance.stage = this.stage = this.node.getChildByName('GameLayout')
     this.ui = this.node.getChildByName('GameControl')
@@ -72,6 +72,7 @@ export class BattleManager extends Component {
     // 加载所有预制体
     for (const type in PrefabPathEnum) {
       const p = ResourceManager.instance.loadRes(PrefabPathEnum[type], Prefab).then((prefab) => {
+        console.log('[load prefab]', type)
         DataManager.instance.prefabMap.set(type, prefab)
       })
       list.push(p)

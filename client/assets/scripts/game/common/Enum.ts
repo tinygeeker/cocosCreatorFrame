@@ -1,12 +1,12 @@
 export enum FsmParamTypeEnum {
-  Trigger,
-  Number
+  Number = "Number",
+  Trigger = "Trigger",
 }
 
 export enum ParamsNameEnum {
-  Idle = 'Idle',
-  Run = 'Run',
-  Attack = 'Attack',
+  Idle = "Idle",
+  Run = "Run",
+  Attack = "Attack",
 }
 
 export enum InputTypeEnum {
@@ -31,11 +31,20 @@ export enum EntityStateEnum {
 }
 
 export enum texturePathEnum {
-
+  Actor1Idle = 'textures/actor/actor1/idle',
+  Actor1Run = 'textures/actor/actor1/run',
+  Weapon1Idle = 'textures/weapon/weapon1/idle',
+  Weapon1Attack = 'textures/weapon/weapon1/attack',
+  Bullet2Idle = 'textures/bullet/bullet2',
+  ExplosionIdle = 'textures/explosion',
 }
 
 export enum PrefabPathEnum {
-
+  Map = 'prefabs/Map',
+  Actor1 = 'prefabs/Actor',
+  Weapon1 = 'prefabs/Weapon1',
+  Bullet2 = 'prefabs/Bullet2',
+  Explosion = 'prefabs/Explosion',
 }
 
 export enum IClientInput {
@@ -49,11 +58,11 @@ export enum ApiMsgEnum {
 }
 
 export enum EventEnum {
-  WeaponShoot,
-  BulletBorn,
-  ExplosionBorn,
-  ClientSync,
-  ClientInput
+  WeaponShoot = 'WeaponShoot',
+  ExplosionBorn = 'ExplosionBorn',
+  BulletBorn = 'BulletBorn',
+  ClientSync = 'ClientSync',
+  ClientInput = 'ClientInput'
 }
 
 export enum GameStatus {
