@@ -51,18 +51,19 @@ export enum IClientInput {
 
 }
 
-export enum ApiMsgEnum {
-  ApiPlayerJoin = 'ApiPlayerJoin',
-  MsgClientSync = 'MsgClientSync',
-  MsgServerSync = 'ApiPlayerJoin'
+export enum SocketApiEnum {
+  UserLogin = 'user.login',
+  HallChat = 'hall.chat',
+  RoomJoin = 'room.join',
+  FrameSync = 'frame.sync',
+  FrameInput = 'frame.input',
 }
 
 export enum EventEnum {
   WeaponShoot = 'WeaponShoot',
   ExplosionBorn = 'ExplosionBorn',
   BulletBorn = 'BulletBorn',
-  ClientSync = 'ClientSync',
-  ClientInput = 'ClientInput'
+  ClientInput = 'client.input'
 }
 
 export enum GameStatus {

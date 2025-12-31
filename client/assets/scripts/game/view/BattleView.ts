@@ -7,7 +7,7 @@ import { ObjectPoolManager } from '../../core/base/ObjectPoolManager';
 import { NetworkManager } from '../../core/net/NetworkManager';
 import EventManager from '../../core/base/EventManager';
 import DataManager from '../../core/base/DataManager';
-import { EntityTypeEnum, IClientInput, InputTypeEnum, ApiMsgEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../common/Enum';
+import { EntityTypeEnum, IClientInput, InputTypeEnum, SocketApiEnum, EventEnum, PrefabPathEnum, texturePathEnum } from '../common/Enum';
 const { ccclass, property } = _decorator;
 
 @ccclass('BattleView')
@@ -44,13 +44,13 @@ export class BattleView extends Component {
     this._shouldUpdate = true
 
     // 监听帧同步事件
-    EventManager.instance.on(EventEnum.ClientSync, this.handleClientSync, this)
-    NetworkManager.instance.listenMsg(ApiMsgEnum.MsgServerSync, this.handleServerSync, this)
+    EventManager.instance.on(EventEnum.ClientInput, this.handleClientInput, this)
+    NetworkManager.instance.listenMsg(SocketApiEnum.FrameSync, this.handleFrameSync, this)
   }
 
   clearGame() {
-    EventManager.instance.off(EventEnum.ClientSync, this.handleClientSync, this)
-    NetworkManager.instance.unlistenMsg(ApiMsgEnum.MsgServerSync, this.handleServerSync, this)
+    EventManager.instance.off(EventEnum.ClientInput, this.handleClientInput, this)
+    NetworkManager.instance.unlistenMsg(SocketApiEnum.FrameSync, this.handleFrameSync, this)
 
     // 获取场景相关结点
     DataManager.instance.stage = this.stage = this.node.getChildByName('GameLayout')
@@ -163,15 +163,15 @@ export class BattleView extends Component {
   }
 
 
-  handleClientSync(input: IClientInput) {
+  handleClientInput(input: IClientInput) {
     const msg = {
       input,
       frameId: DataManager.instance.frameId++
     }
-    NetworkManager.instance.sendMsg(ApiMsgEnum.MsgClientSync, msg)
+    NetworkManager.instance.sendMsg(SocketApiEnum.FrameInput, msg)
   }
 
-  handleServerSync({ inputs }: any) {
+  handleFrameSync({ inputs }: any) {
     for (const input of inputs) {
       DataManager.instance.applyInput(input)
     }

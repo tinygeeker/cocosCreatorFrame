@@ -46,9 +46,9 @@ export class NetworkManager extends SingletonManager {
             this._ws.onmessage = (e) => {
                 console.log('[websocket/onmessage成功]', e.data)
                 try {
-                    let { name, data } = JSON.parse(e.data)
-                    if (this.map.has(name)) {
-                        this.map.get(name).forEach(({ cb, ctx }) => {
+                    let { cmd, data } = JSON.parse(e.data)
+                    if (this.map.has(cmd)) {
+                        this.map.get(cmd).forEach(({ cb, ctx }) => {
                             // 这里区分apply和call作用，apply传数组
                             // cb.apply(ctx, data);
                             cb.call(ctx, data);
@@ -88,9 +88,9 @@ export class NetworkManager extends SingletonManager {
         })
     }
 
-    sendMsg(name: string, data) {
+    sendMsg(cmd: string, data) {
         const msg = {
-            name,
+            cmd,
             data
         }
         this._ws.send(JSON.stringify(msg))

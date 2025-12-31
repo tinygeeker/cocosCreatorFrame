@@ -71,7 +71,7 @@ export class ActorManager extends EntityManager {
       const { x, y } = DataManager.instance.jm.input
 
       // 实现帧同步
-      EventManager.instance.emit(EventEnum.ClientSync, {
+      EventManager.instance.emit(EventEnum.ClientInput, {
         id: 1,
         type: InputTypeEnum.ActorMove,
         direction: { x, y },

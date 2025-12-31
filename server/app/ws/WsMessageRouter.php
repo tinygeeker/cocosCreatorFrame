@@ -12,10 +12,10 @@ class WsMessageRouter
     public static function dispatch(TcpConnection $connection, string $message)
     {
         $data = json_decode($message, true);
-        if (!$data || empty($data['name'])) return;
+        if (!$data || empty($data['cmd'])) return;
 
-        switch ($data['name']) {
-            case 'ApiPlayerJoin':
+        switch ($data['cmd']) {
+            case 'user.login':
                 AuthService::login($connection, $data['data']);
                 break;
             case 'hall.chat':
@@ -24,7 +24,7 @@ class WsMessageRouter
             case 'room.join':
                 RoomService::join($connection, $data['data']);
                 break;
-            case 'MsgClientSync':
+            case 'frame.input':
                 FrameService::input($connection, $data['data']);
                 break;
             default:

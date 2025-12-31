@@ -27,7 +27,7 @@ class FrameService
         }
 
         $payload = [
-            'name' => 'MsgServerSync',
+            'cmd' => 'frame.sync',
             'data' => [
                 'inputs' => self::$inputs[self::$frame] ?? []
             ]
