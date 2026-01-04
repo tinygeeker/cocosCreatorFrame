@@ -1,5 +1,5 @@
 import { _decorator, Component } from "cc";
-import { EntityStateEnum } from "../../game/common/Enum";
+import { EntityStateEnum } from "../../app/common/Enum";
 import StateMachine from "../utils/StateMachine";
 const { ccclass, property } = _decorator;
 

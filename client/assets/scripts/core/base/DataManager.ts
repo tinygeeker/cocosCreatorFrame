@@ -1,11 +1,11 @@
 import { Prefab, SpriteFrame, Node } from "cc";
 import SingletonManager from "./SingletonManager";
-import { ActorManager } from "../../game/view/actor/ActorManager";
-import { JoyStickView } from "../../game/view/ui/JoyStickView";
-import { BulletManager } from "../../game/view/bullet/BulletManager";
+import { ActorManager } from "../../app/view/actor/ActorManager";
+import { JoyStickView } from "../../app/view/ui/JoyStickView";
+import { BulletManager } from "../../app/view/bullet/BulletManager";
 import EventManager from "./EventManager";
-import { EventEnum, InputTypeEnum, EntityTypeEnum } from "../../game/common/Enum";
-import { IActorMove, IBullet, IClientInput, IState } from "../../game/common/Type";
+import { EventEnum, InputTypeEnum, EntityTypeEnum } from "../../app/common/Enum";
+import { IActorMove, IBullet, IClientInput, IState } from "../../app/common/Type";
 
 const ACTOR_RADIUS = 50 // 人物半径
 const BULLET_RADIUS = 10 // 子弹半径

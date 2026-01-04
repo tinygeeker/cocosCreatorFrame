@@ -1,3 +1,9 @@
+export enum SceneEnum {
+  Login = 'Login',
+  Battle = 'Battle',
+  Hall = 'Hall'
+}
+
 export enum FsmParamTypeEnum {
   Number = "Number",
   Trigger = "Trigger",
@@ -53,6 +59,7 @@ export enum IClientInput {
 
 export enum SocketApiEnum {
   UserLogin = 'user.login',
+  UserList = 'user.list',
   HallChat = 'hall.chat',
   RoomJoin = 'room.join',
   FrameSync = 'frame.sync',
