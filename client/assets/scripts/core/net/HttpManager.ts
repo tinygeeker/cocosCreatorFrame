@@ -13,8 +13,6 @@ interface responseType {
   token?: string
 }
 
-console.log("CONFIG.API_BASE_URL", networkConfig.apiBaseUrl)
-
 class HttpManager {
   baseUrl = networkConfig.apiBaseUrl
   requestInterceptors = []

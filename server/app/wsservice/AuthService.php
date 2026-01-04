@@ -21,7 +21,7 @@ class AuthService
         self::$users[$uid] = $user;
 
         $payload = [
-            'name' => 'ApiPlayerJoin',
+            'name' => 'user.login.sync',
             'data' => [
                 'success' => true,
                 'res' => $user
