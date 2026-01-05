@@ -14,37 +14,33 @@ export class HallManager extends Component {
 
 
   start() {
-    NetworkManager.instance.listenMsg(SocketApiEnum.UserList, this.getPlayer, this)
+    NetworkManager.instance.listenMsg(SocketApiEnum.UserAdd, this.renderPlayer, this)
+    NetworkManager.instance.listenMsg(SocketApiEnum.UserLeave, this.onLeavePlayer, this)
     this.playerContainer.destroyAllChildren()
-    // this.getPlayer()
+    this.getPlayer()
   }
 
   protected onDestroy(): void {
-    NetworkManager.instance.unlistenMsg(SocketApiEnum.UserList, this.getPlayer, this)
+    NetworkManager.instance.unlistenMsg(SocketApiEnum.UserAdd, this.renderPlayer, this)
+    NetworkManager.instance.unlistenMsg(SocketApiEnum.UserLeave, this.onLeavePlayer, this)
   }
 
 
-  // async getPlayer() {
-  //   const { code, msg, data } = await NetworkManager.instance.callApi(
-  //     SocketApiEnum.UserList
-  //   )
+  async getPlayer() {
+    const data = await NetworkManager.instance.callApi(
+      SocketApiEnum.UserList
+    )
 
-  //   if (200 !== code) {
-  //     console.error(msg)
-  //     return
-  //   }
-
-  //   console.log('用户列表', data);
-  //   this.render(data)
-  // }
-
-  getPlayer(res) {
-    const { data } = res
-    this.render(data)
+    console.log('用户列表', data);
+    this.renderPlayer(data)
   }
 
-  render(list) {
-    console.log('dddd', list)
+  onLeavePlayer(data) {
+    this.playerContainer.destroyAllChildren()
+    this.renderPlayer(data)
+  }
+
+  renderPlayer(list) {
     for (const key in list) {
       let prefab = instantiate(this.playerPrefab)
       prefab.active = false

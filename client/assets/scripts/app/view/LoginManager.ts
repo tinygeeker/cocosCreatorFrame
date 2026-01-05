@@ -29,17 +29,12 @@ export class LoginManager extends Component {
       return
     }
 
-    const { code, msg, data } = await NetworkManager.instance.callApi(
+    const data = await NetworkManager.instance.callApi(
       SocketApiEnum.UserLogin,
       { nickname }
     )
 
-    if (200 !== code) {
-      console.error(msg)
-      return
-    }
-
-    DataManager.instance.myPlayerId = data.id
+    DataManager.instance.myPlayerId = data?.id
 
     director.loadScene(SceneEnum.Hall)
   }

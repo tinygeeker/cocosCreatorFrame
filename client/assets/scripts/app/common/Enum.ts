@@ -60,6 +60,8 @@ export enum IClientInput {
 export enum SocketApiEnum {
   UserLogin = 'user.login',
   UserList = 'user.list',
+  UserAdd = 'user.add',
+  UserLeave = 'user.leave',
   HallChat = 'hall.chat',
   RoomJoin = 'room.join',
   FrameSync = 'frame.sync',

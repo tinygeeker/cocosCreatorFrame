@@ -46,6 +46,7 @@ class Events
     public static function onClose($connection)
     {
         echo "[onClose] 成功\n";
+        WsMessageRouter::onClose($connection);
         unset(self::$connections[spl_object_id($connection)]);
     }
 

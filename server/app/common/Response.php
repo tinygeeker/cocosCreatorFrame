@@ -14,11 +14,9 @@ class Response
     {
         $response = [
             'cmd' => $cmd,
-            'data' => [
-                'code' => $code ?: self::$successCode,
-                'msg' => $message ?: self::$successMessage,
-                'data' => $data
-            ]
+            'code' => $code ?: self::$successCode,
+            'msg' => $message ?: self::$successMessage,
+            'data' => $data
         ];
 
         return json_encode($response, JSON_UNESCAPED_UNICODE);
@@ -28,11 +26,9 @@ class Response
     {
         $response = [
             'cmd' => $cmd,
-            'data' => [
-                'code' => $code ?: self::$errorCode,
-                'msg' => $message ?: self::$errorMessage,
-                'debug' => $debug
-            ]
+            'code' => $code ?: self::$errorCode,
+            'msg' => $message ?: self::$errorMessage,
+            'debug' => $debug
         ];
 
         return json_encode($response, JSON_UNESCAPED_UNICODE);

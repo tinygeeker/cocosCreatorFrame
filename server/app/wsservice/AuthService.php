@@ -21,28 +21,46 @@ class AuthService
             'nickname' => $input['nickname']
         ];
 
+        $connection->uid = $uid;
         self::$userMap[$uid] = $data;
         self::$userClientMap[$uid] = $connection;
 
         $connection->send(Response::success('user.login', $data));
 
         // 广播
-        self::list();
+        self::notifyUserLogin($data);
     }
 
-    public static function list()
+    public static function list(TcpConnection $connection)
+    {
+        $connection->send(Response::success('user.list', self::$userMap));
+    }
+
+    public static function notifyUserLogin(array $userInfo)
+    {
+        foreach (self::$userClientMap as $uid => $client) {
+            if ($uid === $userInfo['id']) continue;
+
+            $client->send(Response::success('user.add', [$userInfo]));
+        }
+    }
+
+    private static function notifyUserLeave()
     {
         foreach (self::$userClientMap as $client) {
-            $client->send(Response::success('user.list', self::$userMap));
+            $client->send(Response::success('user.leave', self::$userMap));
         }
     }
 
-    public static function logout(array $data)
-    {
-        $uid = $data['id'];
 
-        if (isset(self::$userMap[$uid])) {
-            unset(self::$userMap[$uid]);
+    public static function logout(TcpConnection $connection)
+    {
+        if (isset($connection->uid)) {
+            unset(self::$userMap[$connection->uid]);
+            unset(self::$userClientMap[$connection->uid]);
         }
+
+        // 广播
+        self::notifyUserLeave();
     }
 }

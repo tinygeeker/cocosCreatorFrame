@@ -18,6 +18,9 @@ class WsMessageRouter
             case 'user.login':
                 AuthService::login($connection, $data['data']);
                 break;
+            case 'user.list':
+                AuthService::list($connection);
+                break;
             case 'hall.chat':
                 ChatService::hallChat($connection, $data['data']);
                 break;
@@ -30,6 +33,11 @@ class WsMessageRouter
             default:
                 break;
         }
+    }
+
+    public static function onClose(TcpConnection $connection)
+    {
+        AuthService::logout($connection);
     }
 }
 

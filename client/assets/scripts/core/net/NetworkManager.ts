@@ -6,11 +6,12 @@ interface IItem {
   ctx: unknown;
 }
 
-interface ICallApiRet {
-  code: number;
-  msg: string;
-  data?: any;
-}
+// interface ICallApiRet {
+//   cmd?: string;
+//   code: number;
+//   msg: string;
+//   data?: any;
+// }
 
 
 export class NetworkManager extends SingletonManager {
@@ -46,7 +47,12 @@ export class NetworkManager extends SingletonManager {
       this._ws.onmessage = (e) => {
         console.log('[ws/onmessage成功]', e.data)
         try {
-          let { cmd, data } = JSON.parse(e.data)
+          let { cmd, code, msg, data } = JSON.parse(e.data)
+          if (200 !== code) {
+            console.error('[ws/onmessage失败]', msg)
+            return false
+          }
+
           if (this.map.has(cmd)) {
             this.map.get(cmd).forEach(({ cb, ctx }) => {
               // 这里区分apply和call作用，apply传数组
@@ -61,7 +67,7 @@ export class NetworkManager extends SingletonManager {
     })
   }
 
-  callApi(name: string, data = {}): Promise<ICallApiRet> {
+  callApi(name: string, data = {}): Promise<any> {
     return new Promise((resolve) => {
       try {
         const timer = setTimeout(() => {
