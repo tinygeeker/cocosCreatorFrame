@@ -1,7 +1,8 @@
-import { _decorator, Component, instantiate, Node, Prefab } from 'cc';
+import { _decorator, Component, director, instantiate, Node, Prefab } from 'cc';
 import { NetworkManager } from '../../core/net/NetworkManager';
-import { SocketApiEnum } from '../common/Enum';
+import { SceneEnum, SocketApiEnum } from '../common/Enum';
 import { PlayerManager } from './ui/PlayerManager';
+import { RoomManager } from './ui/RoomManager';
 const { ccclass, property } = _decorator;
 
 @ccclass('HallManager')
@@ -12,17 +13,31 @@ export class HallManager extends Component {
   @property(Prefab)
   playerPrefab: Prefab
 
+  @property(Node)
+  roomContainer: Node
 
-  start() {
+  @property(Prefab)
+  roomPrefab: Prefab
+
+  protected onLoad(): void {
     NetworkManager.instance.listenMsg(SocketApiEnum.UserAdd, this.renderPlayer, this)
     NetworkManager.instance.listenMsg(SocketApiEnum.UserLeave, this.onLeavePlayer, this)
+    NetworkManager.instance.listenMsg(SocketApiEnum.RoomCreate, this.renderRoom, this)
+    director.preloadScene(SceneEnum.Room)
+  }
+
+
+  start() {
     this.playerContainer.destroyAllChildren()
+    this.roomContainer.destroyAllChildren()
     this.getPlayer()
+    this.getRoom()
   }
 
   protected onDestroy(): void {
     NetworkManager.instance.unlistenMsg(SocketApiEnum.UserAdd, this.renderPlayer, this)
     NetworkManager.instance.unlistenMsg(SocketApiEnum.UserLeave, this.onLeavePlayer, this)
+    NetworkManager.instance.unlistenMsg(SocketApiEnum.RoomCreate, this.renderRoom, this)
   }
 
 
@@ -40,6 +55,26 @@ export class HallManager extends Component {
     this.renderPlayer(data)
   }
 
+  async getRoom() {
+    const data = await NetworkManager.instance.callApi(
+      SocketApiEnum.RoomList
+    )
+
+    console.log('房间列表', data);
+    this.renderRoom(data)
+  }
+
+  renderRoom(list) {
+    console.log('res', list)
+    for (const key in list) {
+      let prefab = instantiate(this.roomPrefab)
+      prefab.active = false
+      prefab.setParent(this.roomContainer)
+
+      prefab.getComponent(RoomManager).init(list[key])
+    }
+  }
+
   renderPlayer(list) {
     for (const key in list) {
       let prefab = instantiate(this.playerPrefab)
@@ -48,6 +83,14 @@ export class HallManager extends Component {
 
       prefab.getComponent(PlayerManager).init(list[key])
     }
+  }
+
+  async createRoom() {
+    const data = await NetworkManager.instance.callApi(
+      SocketApiEnum.RoomCreate
+    )
+
+    director.loadScene(SceneEnum.Room)
   }
 
   update(deltaTime: number) {

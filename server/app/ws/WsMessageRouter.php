@@ -24,6 +24,12 @@ class WsMessageRouter
             case 'hall.chat':
                 ChatService::hallChat($connection, $data['data']);
                 break;
+            case 'room.create':
+                RoomService::create($connection);
+                break;
+            case 'room.list':
+                RoomService::list($connection);
+                break;
             case 'room.join':
                 RoomService::join($connection, $data['data']);
                 break;

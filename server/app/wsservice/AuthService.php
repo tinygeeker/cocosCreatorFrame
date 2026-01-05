@@ -4,6 +4,7 @@ namespace app\wsservice;
 
 use app\common\Response;
 use GatewayWorker\Lib\Gateway;
+use PhpMyAdmin\Dbi\DbiDummy;
 use Workerman\Connection\TcpConnection;
 
 class AuthService
@@ -11,6 +12,11 @@ class AuthService
     private static $uid = 0;
     private static $userMap = [];
     private static $userClientMap = [];
+
+    public static function list(TcpConnection $connection)
+    {
+        $connection->send(Response::success('user.list', self::$userMap));
+    }
 
     public static function login(TcpConnection $connection, array $input)
     {
@@ -31,11 +37,6 @@ class AuthService
         self::notifyUserLogin($data);
     }
 
-    public static function list(TcpConnection $connection)
-    {
-        $connection->send(Response::success('user.list', self::$userMap));
-    }
-
     public static function notifyUserLogin(array $userInfo)
     {
         foreach (self::$userClientMap as $uid => $client) {
@@ -52,6 +53,15 @@ class AuthService
         }
     }
 
+    public static function getUserInfo(int $uid)
+    {
+        return self::$userMap[$uid] ?? [];
+    }
+
+    public static function getAllConnections()
+    {
+        return self::$userClientMap;
+    }
 
     public static function logout(TcpConnection $connection)
     {

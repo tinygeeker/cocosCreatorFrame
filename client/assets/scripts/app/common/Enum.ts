@@ -1,7 +1,8 @@
 export enum SceneEnum {
   Login = 'Login',
   Battle = 'Battle',
-  Hall = 'Hall'
+  Hall = 'Hall',
+  Room = 'Room',
 }
 
 export enum FsmParamTypeEnum {
@@ -62,6 +63,8 @@ export enum SocketApiEnum {
   UserList = 'user.list',
   UserAdd = 'user.add',
   UserLeave = 'user.leave',
+  RoomCreate = 'room.create',
+  RoomList = 'room.list',
   HallChat = 'hall.chat',
   RoomJoin = 'room.join',
   FrameSync = 'frame.sync',

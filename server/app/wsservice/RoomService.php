@@ -2,14 +2,74 @@
 
 namespace app\wsservice;
 
+use app\common\Response;
 use GatewayWorker\Lib\Gateway;
 use Workerman\Connection\TcpConnection;
 
 class RoomService
 {
-    protected static $rooms = [];
+    protected static $roomId = 0;
+    private static $rooms = [];
+    private static $userRoomMap = [];
 
-    protected static $clientRoomMap = [];
+    public static function list(TcpConnection $connection)
+    {
+        $connection->send(Response::success('room.list', self::$rooms));
+    }
+
+    public static function create(TcpConnection $connection)
+    {
+        if (!isset($connection->uid)) {
+            return $connection->send(Response::error('room.create', '用户未登录~'));
+        }
+
+        $uid = $connection->uid;
+        $userInfo = AuthService::getUserInfo($uid);
+
+        if (!$userInfo) {
+            return $connection->send(Response::error('room.create', '用户不存在~'));
+        }
+
+        if (isset(self::$userRoomMap[$uid])) {
+            return $connection->send(Response::error('room.create', '已经在房间内~'));
+        }
+
+        $roomId = ++self::$roomId;
+        $roomInfo = [
+            'id' => $roomId,
+            'name' => '房间号：' . $roomId,
+            'owner' => $uid,
+            'owner_name' => $userInfo['nickname'],
+            'players' => [$userInfo]
+        ];
+
+        self::$rooms[$roomId] = $roomInfo;
+        self::$userRoomMap[$uid] = $roomId;
+
+        $connection->send(Response::success('room.create', [$roomInfo]));
+
+        // 同步给大厅中所有用户
+        self::broadcastRoomListToLobby();
+
+        // 单独给创建者推送房间详情
+//        self::notifyRoomUpdate($roomId, $uid);
+
+        return true;
+    }
+
+    public static function broadcastRoomListToLobby()
+    {
+        $connections = AuthService::getAllConnections();
+
+        foreach ($connections as $connection) {
+            $uid = $connection->uid ?? null;
+            if ($uid && isset(self::$userRoomMap[$uid])) {
+                continue;
+            }
+
+            $connection->send(Response::success('room.create', self::$rooms));
+        }
+    }
 
     public static function join(TcpConnection $connection, array $data)
     {
